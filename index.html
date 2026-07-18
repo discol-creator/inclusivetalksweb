@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inclusive Talks. El summit de discapacidad que Colombia no tenía.</title>
+<meta name="description" content="Inclusive Talks es el summit de discapacidad que Colombia no tenía. Segunda edición en Medellín, 2026. Inscríbete para enterarte primero de fechas, agenda y alianzas.">
+<meta name="theme-color" content="#1A1A1A">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Inclusive Talks. El summit de discapacidad que Colombia no tenía.">
+<meta property="og:description" content="Segunda edición en Medellín, 2026. Próximo lanzamiento. Inscripción previa abierta.">
+<meta property="og:locale" content="es_CO">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231A1A1A'/%3E%3Ccircle cx='30' cy='30' r='9' fill='%230EA5E9'/%3E%3Crect x='24' y='46' width='12' height='34' rx='2' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<!-- Barra de accesibilidad -->
+<div class="a11y-toolbar" id="a11y-toolbar">
+  <button type="button" class="a11y-toolbar__toggle" id="a11y-toggle" aria-expanded="false" aria-controls="a11y-panel">
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"></circle><path d="M12 11v10M8 15l4-1 4 1M9 3.5l3 1.5 3-1.5"></path></svg>
+    <span>Accesibilidad</span>
+  </button>
+  <div class="a11y-toolbar__panel" id="a11y-panel" hidden>
+    <p class="a11y-toolbar__label" id="a11y-panel-label">Herramientas de accesibilidad</p>
+    <button type="button" class="a11y-toolbar__btn" id="btn-zoom" aria-label="Cambiar tamaño del texto. Tamaño actual: 100 por ciento">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"></path></svg>
+      <span>Zoom <span id="zoom-value">100%</span></span>
+    </button>
+    <button type="button" class="a11y-toolbar__btn" id="btn-dictado" aria-pressed="false">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"></path></svg>
+      <span id="dictado-label">Activar dictado</span>
+    </button>
+    <button type="button" class="a11y-toolbar__btn" id="btn-contraste" aria-pressed="false">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"></path></svg>
+      <span id="contraste-label">Alto contraste</span>
+    </button>
+  </div>
+</div>
+
+<div id="a11y-announcer" class="visually-hidden" aria-live="polite"></div>
+
+<header class="site-header" id="top">
+  <div class="wrap site-header__inner">
+    <a href="#top" class="logo logo--header" aria-label="Inclusive Talks. Discapacidad Colombia. Ir al inicio.">
+      <span class="logo__word"><span class="logo__dot" aria-hidden="true"></span>inclusive</span><span class="logo__word logo__word--2">talks<span class="logo__dot logo__dot--inline" aria-hidden="true"></span>.</span>
+    </a>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      <span class="visually-hidden">Abrir menú de navegación</span>
+    </button>
+
+    <nav class="primary-nav" id="primary-nav" aria-label="Navegación principal">
+      <ul>
+        <li><a href="#lanzamiento">Lanzamiento</a></li>
+        <li><a href="#problema">El problema</a></li>
+        <li><a href="#ejes">Los ejes</a></li>
+        <li><a href="#antecedente">Antecedente</a></li>
+        <li><a href="#alianzas">Alianzas</a></li>
+      </ul>
+      <a href="#preregistro" class="btn btn--primary btn--small">Quiero enterarme primero</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__media" aria-hidden="true">
+      <img src="images/hero-audience.jpg" alt="" loading="eager">
+      <div class="hero__scrim"></div>
+    </div>
+    <div class="wrap hero__inner">
+      <p class="kicker kicker--dark">Discapacidad Colombia presenta</p>
+      <span class="logo logo--hero" aria-hidden="true">
+        <span class="logo__word"><span class="logo__dot" aria-hidden="true"></span>inclusive</span><span class="logo__word logo__word--2">talks<span class="logo__dot logo__dot--inline" aria-hidden="true"></span>.</span>
+      </span>
+      <h1 id="hero-heading" class="visually-hidden">Inclusive Talks: el summit de discapacidad que Colombia no tenía</h1>
+      <p class="hero__headline">El summit de discapacidad que Colombia no tenía.</p>
+      <p class="hero__subhead">Un evento de divulgación, cultura y debate que reúne a personas con y sin discapacidad, empresas, academia y legisladores en un mismo espacio, para construir el summit de referencia sobre discapacidad en Colombia y la región.</p>
+      <div class="hero__actions">
+        <a href="#preregistro" class="btn btn--primary">Quiero enterarme primero</a>
+        <a href="#alianzas" class="btn btn--outline btn--on-dark">Ser aliado institucional</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRÓXIMO LANZAMIENTO -->
+  <section class="section lanzamiento" id="lanzamiento" aria-labelledby="lanzamiento-heading">
+    <div class="wrap">
+      <div class="lanzamiento__top">
+        <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Próximo lanzamiento</p>
+        <span class="status-pill">
+          <span class="status-pill__dot" aria-hidden="true"></span>
+          En preparación
+        </span>
+      </div>
+      <h2 id="lanzamiento-heading" class="h1">Segunda edición.<br>Medellín, 2026.</h2>
+      <p class="lead">Después de su primera edición en Bogotá, Inclusive Talks se prepara para llegar a Medellín. Todavía no hay fecha exacta confirmada: en cuanto la tengamos, será lo primero que compartamos con quienes se inscriban a continuación.</p>
+
+      <ol class="route">
+        <li class="route__step is-done">
+          <span class="route__year">2024</span>
+          <span class="route__city">Bogotá</span>
+          <span class="route__tag">Primera edición</span>
+        </li>
+        <li class="route__step is-current">
+          <span class="route__year">2026</span>
+          <span class="route__city">Medellín</span>
+          <span class="route__tag">Segunda edición · próximo lanzamiento</span>
+        </li>
+        <li class="route__step">
+          <span class="route__year">Próxima plaza</span>
+          <span class="route__city">Cali</span>
+          <span class="route__tag">Siguiente parada del recorrido</span>
+        </li>
+      </ol>
+      <p class="route__goal">La meta: consolidar Inclusive Talks como un summit itinerante, con presencia creciente en distintas ciudades del país.</p>
+    </div>
+  </section>
+
+  <!-- EL PROBLEMA -->
+  <section class="section section--white" id="problema" aria-labelledby="problema-heading">
+    <div class="wrap">
+      <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>El problema</p>
+      <h2 id="problema-heading" class="h1">La ley ya garantiza los mismos derechos.<br>La vida diaria no siempre los refleja.</h2>
+
+      <div class="stats" role="list">
+        <div class="stat-card" role="listitem">
+          <p class="stat-card__number">3.134.037</p>
+          <p class="stat-card__desc">personas con discapacidad en Colombia, el <strong>7,1%</strong> de la población.</p>
+          <p class="stat-card__source">Fuente: DANE, Censo 2018</p>
+        </div>
+        <div class="stat-card" role="listitem">
+          <p class="stat-card__number">23,4<span class="stat-card__unit">%</span></p>
+          <p class="stat-card__desc">participación laboral de personas con discapacidad, frente al <strong>66,3%</strong> de la población sin discapacidad.</p>
+          <p class="stat-card__source">Fuente: DANE, GEIH 2024</p>
+        </div>
+        <div class="stat-card" role="listitem">
+          <p class="stat-card__number">16,2<span class="stat-card__unit">%</span></p>
+          <p class="stat-card__desc">de las personas con discapacidad no alcanzó ningún nivel educativo, frente al <strong>2,6%</strong> de la población sin discapacidad.</p>
+          <p class="stat-card__source">Fuente: DANE, ECV 2022</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p>El problema no es la falta de leyes. Colombia tiene un marco legal robusto: Ley 1346 de 2009, Ley Estatutaria 1618 de 2013, CONPES 166 de 2013 y Ley 1996 de 2019. El problema es la distancia entre esa ley y la vida diaria.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOS TRES EJES -->
+  <section class="section" id="ejes" aria-labelledby="ejes-heading">
+    <div class="wrap">
+      <div class="ejes__grid">
+        <div class="ejes__intro">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Cómo funciona</p>
+          <h2 id="ejes-heading" class="h1">Tres conversaciones distintas, en el mismo espacio.</h2>
+          <p class="lead">Un día pensado para entender más y sentir más cerca la causa: charlas cortas estilo TED, debate moderado en dos etapas, networking empresarial y social, y un cierre distendido, el After Inclusive Talks.</p>
+          <div class="ejes__photo">
+            <img src="images/ejes-portrait.jpg" alt="" loading="lazy">
+          </div>
+        </div>
+
+        <div class="ejes__cards">
+          <article class="eje-card eje-card--sun">
+            <p class="eje-card__num">01</p>
+            <h3 class="eje-card__title">Curiosidades</h3>
+            <p class="eje-card__desc">Divulgación y cultura, con charlas cortas estilo TED sobre la realidad de la discapacidad, para generar empatía y cerrar la brecha de conocimiento.</p>
+          </article>
+          <article class="eje-card eje-card--coral">
+            <p class="eje-card__num">02</p>
+            <h3 class="eje-card__title">Tips</h3>
+            <p class="eje-card__desc">Experiencias reales de personas que viven con una discapacidad y han encontrado formas concretas de mejorar su calidad de vida.</p>
+          </article>
+          <article class="eje-card eje-card--blue">
+            <p class="eje-card__num">03</p>
+            <h3 class="eje-card__title">Debate</h3>
+            <p class="eje-card__desc">Conversación directa y sin banderas políticas con legisladores y tomadores de decisión, para poner la discapacidad en la agenda pública real.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANTECEDENTE -->
+  <section class="section section--dark" id="antecedente" aria-labelledby="antecedente-heading">
+    <div class="wrap">
+      <p class="kicker kicker--dark"><span class="kicker__dot" aria-hidden="true"></span>Ya tiene tracción real</p>
+      <h2 id="antecedente-heading" class="h1 h1--on-dark">La primera edición ya se sintió en el Congreso.</h2>
+
+      <div class="antecedente__grid">
+        <div class="antecedente__text">
+          <p>El 3 de diciembre de 2024, Día Internacional de las Personas con Discapacidad, Inclusive Talks realizó su primera edición en el Salón de la Constitución, Capitolio Nacional, Congreso de la República, en Bogotá, con el respaldo de la representante a la Cámara Catherine (Cathy) Juvinao.</p>
+          <p>De ese encuentro nació un proyecto de acto legislativo que ya superó su primer debate en el Congreso.</p>
+        </div>
+        <div class="antecedente__highlight">
+          <p class="antecedente__highlight-title">Primer debate superado</p>
+          <p class="antecedente__highlight-desc">en el proyecto de acto legislativo que surgió de la primera edición de Inclusive Talks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRE-REGISTRO -->
+  <section class="section section--white" id="preregistro" aria-labelledby="preregistro-heading">
+    <div class="wrap">
+      <div class="preregistro__grid">
+        <div class="preregistro__intro">
+          <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Inscripción previa</p>
+          <h2 id="preregistro-heading" class="h1">Sé de los primeros en enterarte.</h2>
+          <p class="lead">Déjanos tu nombre y correo. Te avisamos primero cuando se confirme la fecha, la agenda y la apertura de inscripciones para Medellín 2026.</p>
+        </div>
+
+        <div class="form-card">
+          <form id="preregistro-form" novalidate>
+            <div class="form-field">
+              <label for="field-nombre">Nombre completo</label>
+              <input type="text" id="field-nombre" name="nombre" autocomplete="name" required aria-describedby="error-nombre">
+              <p class="form-error" id="error-nombre" role="alert" hidden></p>
+            </div>
+
+            <div class="form-field">
+              <label for="field-correo">Correo electrónico</label>
+              <input type="email" id="field-correo" name="correo" autocomplete="email" required aria-describedby="error-correo">
+              <p class="form-error" id="error-correo" role="alert" hidden></p>
+            </div>
+
+            <fieldset class="form-field">
+              <legend>Vienes como</legend>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="tipo" value="persona" checked>
+                  <span>Persona</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="tipo" value="empresa">
+                  <span>Empresa</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="tipo" value="institucion">
+                  <span>Institución</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="form-field form-field--hp" aria-hidden="true">
+              <label for="field-web">No llenar este campo</label>
+              <input type="text" id="field-web" name="sitio_web" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full" id="form-submit">
+              <span id="form-submit-label">Quiero enterarme primero</span>
+            </button>
+
+            <p class="form-note">Solo usaremos tu correo para escribirte sobre Inclusive Talks. Nada de spam.</p>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALIANZAS INSTITUCIONALES -->
+  <section class="section alianzas" id="alianzas" aria-labelledby="alianzas-heading">
+    <div class="wrap">
+      <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Alianzas institucionales</p>
+      <h2 id="alianzas-heading" class="h1">Suma tu institución como aliada fundadora.</h2>
+      <p class="lead">Esta fase busca respaldo institucional (gobierno, academia y sociedad civil), todavía no patrocinio comercial. Así se puede sumar tu organización:</p>
+
+      <div class="alianzas__grid" role="list">
+        <article class="alianza-card" role="listitem">
+          <p class="alianza-card__label">Aliado Fundador</p>
+          <p class="alianza-card__desc">Aval institucional y respaldo formal a la iniciativa.</p>
+        </article>
+        <article class="alianza-card" role="listitem">
+          <p class="alianza-card__label">Aliado de Gobierno</p>
+          <p class="alianza-card__desc">Incidencia legislativa y participación en el eje de debate.</p>
+        </article>
+        <article class="alianza-card" role="listitem">
+          <p class="alianza-card__label">Aliado Académico</p>
+          <p class="alianza-card__desc">Contenido y evidencia, investigación y expertos.</p>
+        </article>
+        <article class="alianza-card" role="listitem">
+          <p class="alianza-card__label">Aliado de Sociedad Civil</p>
+          <p class="alianza-card__desc">Alcance y comunidad: ONG y organismos que amplían la convocatoria.</p>
+        </article>
+      </div>
+
+      <div class="alianzas__cta">
+        <img class="alianzas__cta-photo" src="images/alianzas-handshake.jpg" alt="" loading="lazy">
+        <div class="alianzas__cta-text">
+          <p class="alianzas__cta-title">¿Tu institución quiere sumarse desde el inicio?</p>
+          <p class="alianzas__cta-desc">Escríbenos y coordinamos una conversación sobre el nivel de alianza que mejor se ajusta a tu organización.</p>
+        </div>
+        <div class="alianzas__cta-action">
+          <button type="button" class="btn btn--primary" id="alianza-open-btn">Quiero postular a mi institución</button>
+          <p class="alianzas__cta-status">O escríbenos directamente a <a href="mailto:dicapacidad.colombia@gmail.com?subject=Alianza%20institucional%20Inclusive%20Talks">dicapacidad.colombia@gmail.com</a>.</p>
+        </div>
+      </div>
+
+      <div class="marco">
+        <p class="marco__label">Marco normativo de referencia</p>
+        <ul class="marco__list">
+          <li>Ley 1346 de 2009</li>
+          <li>Ley 1618 de 2013</li>
+          <li>CONPES 166 de 2013</li>
+          <li>Ley 1996 de 2019</li>
+        </ul>
+        <p class="marco__label marco__label--ods">Alineado con los ODS</p>
+        <ul class="ods__list">
+          <li><span class="ods__num">4</span> Educación de calidad</li>
+          <li><span class="ods__num">10</span> Reducción de las desigualdades</li>
+          <li><span class="ods__num">11</span> Ciudades y comunidades sostenibles</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <dialog id="alianza-dialog" class="dialog" aria-labelledby="alianza-dialog-title">
+    <button type="button" class="dialog__close" id="alianza-close-btn" aria-label="Cerrar formulario de postulación">
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+
+    <h2 id="alianza-dialog-title" class="h1 dialog__title">Postula a tu institución</h2>
+    <p class="lead dialog__lead">Cuéntanos quién eres y te contactamos para coordinar la conversación sobre el nivel de alianza.</p>
+
+    <form id="alianza-form" novalidate>
+      <div class="form-field">
+        <label for="alianza-nombre">Nombre completo</label>
+        <input type="text" id="alianza-nombre" name="nombre" autocomplete="name" required aria-describedby="alianza-error-nombre">
+        <p class="form-error" id="alianza-error-nombre" role="alert" hidden></p>
+      </div>
+
+      <div class="form-field">
+        <label for="alianza-empresa">Empresa o institución</label>
+        <input type="text" id="alianza-empresa" name="empresa" autocomplete="organization" required aria-describedby="alianza-error-empresa">
+        <p class="form-error" id="alianza-error-empresa" role="alert" hidden></p>
+      </div>
+
+      <div class="form-field">
+        <label for="alianza-cargo">Cargo</label>
+        <input type="text" id="alianza-cargo" name="cargo" autocomplete="organization-title" required aria-describedby="alianza-error-cargo">
+        <p class="form-error" id="alianza-error-cargo" role="alert" hidden></p>
+      </div>
+
+      <div class="form-field">
+        <label for="alianza-correo">Correo electrónico</label>
+        <input type="email" id="alianza-correo" name="correo" autocomplete="email" required aria-describedby="alianza-error-correo">
+        <p class="form-error" id="alianza-error-correo" role="alert" hidden></p>
+      </div>
+
+      <div class="form-field">
+        <label for="alianza-telefono">Número de contacto</label>
+        <input type="tel" id="alianza-telefono" name="telefono" autocomplete="tel" required aria-describedby="alianza-error-telefono">
+        <p class="form-error" id="alianza-error-telefono" role="alert" hidden></p>
+      </div>
+
+      <div class="form-field form-field--hp" aria-hidden="true">
+        <label for="alianza-web">No llenar este campo</label>
+        <input type="text" id="alianza-web" name="sitio_web" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full" id="alianza-submit">
+        <span id="alianza-submit-label">Enviar postulación</span>
+      </button>
+
+      <p class="form-status" id="alianza-form-status" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <div class="site-footer__brand">
+      <span class="logo logo--footer" aria-hidden="true">
+        <span class="logo__word"><span class="logo__dot" aria-hidden="true"></span>inclusive</span><span class="logo__word logo__word--2">talks<span class="logo__dot logo__dot--inline" aria-hidden="true"></span>.</span>
+      </span>
+      <p class="site-footer__org"><strong class="text-blue-on-dark">Discapacidad</strong> Colombia.</p>
+    </div>
+
+    <div class="site-footer__contact">
+      <h2 class="site-footer__heading">Contacto</h2>
+      <a href="mailto:dicapacidad.colombia@gmail.com">dicapacidad.colombia@gmail.com</a>
+    </div>
+
+    <div class="site-footer__legal">
+      <p>© 2026 Discapacidad Colombia. Todos los derechos reservados.</p>
+      <p>Sitio construido con criterios de accesibilidad WCAG 2.1 nivel AA.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>

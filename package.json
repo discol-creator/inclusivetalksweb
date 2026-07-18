@@ -1,0 +1,12 @@
+{
+  "name": "inclusive-talks-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing de proximo lanzamiento de Inclusive Talks (Discapacidad Colombia). Sitio estatico HTML/CSS/JS con una funcion serverless para el pre-registro.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "npx serve . -l 3000"
+  }
+}
