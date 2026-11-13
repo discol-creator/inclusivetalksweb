@@ -61,6 +61,42 @@ bloque que llama a la API de Resend en cada uno por cualquier otro proveedor de
 correo transaccional, un webhook a Zapier/Make, o una escritura a Google Sheets
 vía Apps Script.
 
+## Inscripción al evento (Medellín, 4 de diciembre de 2026)
+
+Páginas y archivos:
+
+| Archivo | Para qué |
+|---|---|
+| `inscripcion.html` | Formulario de inscripción (`/inscripcion`) |
+| `privacidad.html` | Aviso de privacidad (`/privacidad`) |
+| `js/inscripcion.js` | Validación en el navegador y pantalla de confirmación |
+| `api/inscripcion.mjs` | Función que valida, guarda en la hoja, genera la escarapela y envía el correo |
+| `api/_campos.mjs` | Opciones del formulario y validación del servidor (los textos deben ser idénticos a los del HTML) |
+| `api/_escarapela.mjs` | Genera la escarapela en PNG de 800 × 1200 px |
+| `api/escarapela-demo.mjs` | Vista previa de la escarapela, desactivada en producción |
+| `api/fonts/` | Poppins e Inter en TTF, necesarias para dibujar el PNG |
+| `docs/apps-script-inscripcion.gs` | Código que va en la hoja de Google (Extensiones > Apps Script) |
+
+Flujo: el formulario llama a `/api/inscripcion`, que revalida todo, envía la fila al Apps Script de la
+hoja maestra (pestaña `Inscripción`, columnas A a N), genera la escarapela con el nombre, la
+organización, el código y un QR, y manda el correo de confirmación con Resend. Si el correo falla, la
+inscripción igual queda guardada.
+
+Variables de entorno (Vercel > Settings > Environment Variables, marcadas para **Production** y **Preview**):
+
+| Variable | Para qué |
+|---|---|
+| `APPS_SCRIPT_URL` | URL de la app web del Apps Script |
+| `APPS_SCRIPT_TOKEN` | Clave compartida; debe ser igual a `TOKEN` en el Apps Script |
+| `RESEND_API_KEY` | Clave de Resend (la misma del pre-registro) |
+| `EMAIL_FROM` | Remitente verificado en Resend. Si falta se usa `RESEND_FROM` |
+
+La sección de pre-registro de la landing quedó dentro de un `<template>` en `index.html`: el navegador
+no la muestra. Para recuperarla, quita las dos etiquetas `<template>` que la envuelven.
+
+Para revisar la escarapela sin escribir en la hoja ni enviar correos, en una vista previa de Vercel:
+`/api/escarapela-demo?nombre=Nombre Apellido&organizacion=Entidad, cargo&codigo=NA07-42`
+
 ## Contenido y fuente de la verdad
 
 Todo el texto, cifras y estructura de niveles de alianza provienen de:
