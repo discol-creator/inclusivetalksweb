@@ -15,7 +15,7 @@ const TIEMPO_MINIMO_MS = 3000;
 
 const MENSAJES_HOJA = {
   'correo-duplicado': 'Ya estás inscrita o inscrito con este correo',
-  'codigo-duplicado': `Ese código ya está en uso. Escríbenos a ${CORREO_CONTACTO} y te ayudamos`
+  'documento-duplicado': `Ese número de documento ya está registrado. Escríbenos a ${CORREO_CONTACTO} y te ayudamos`
 };
 const MENSAJE_HOJA_GENERICO = 'No pudimos guardar tu inscripción. Inténtalo de nuevo en unos minutos';
 
@@ -64,7 +64,7 @@ async function guardarEnHoja(datos) {
 
 function correoConfirmacion({ datos, urlPrivacidad }) {
   const nombre = escaparHtml(primerNombre(datos.nombre));
-  const codigo = escaparHtml(datos.codigo);
+  const documento = escaparHtml(datos.documento);
 
   const parrafoAjustes = datos.ajustes
     ? `<p style="margin:0 0 16px">Recibimos tu solicitud de estos ajustes de accesibilidad: ${escaparHtml(datos.ajustes)}. Si necesitamos más información, te escribiremos.</p>`
@@ -77,11 +77,11 @@ function correoConfirmacion({ datos, urlPrivacidad }) {
   <p style="margin:0 0 16px">Ya estás inscrita o inscrito en Inclusive Talks, segunda edición.</p>
   <p style="margin:0 0 16px">
     <strong>Fecha:</strong> viernes 4 de diciembre de 2026<br>
-    <strong>Hora:</strong> [completar]<br>
+    <strong>Hora:</strong> 10:00 a. m.<br>
     <strong>Lugar:</strong> Salón Azul, Centro Comercial Premium Plaza, Medellín
   </p>
-  <p style="margin:0 0 8px"><strong style="font-size:18px">Tu código personal: ${codigo}</strong></p>
-  <p style="margin:0 0 16px">Lo usarás para registrar tu ingreso y responder las encuestas del evento.</p>
+  <p style="margin:0 0 8px"><strong style="font-size:18px">Tu número de documento: ${documento}</strong></p>
+  <p style="margin:0 0 16px">Con él registramos tu ingreso y enlazamos tus respuestas a las encuestas del evento.</p>
   <p style="margin:0 0 16px">Te adjuntamos tu escarapela. Puedes llevarla impresa o mostrarla en el celular.</p>
   ${parrafoAjustes}
   <p style="margin:0 0 16px">¿Preguntas? Escríbenos a <a href="mailto:${CORREO_CONTACTO}" style="color:#0369A1">${CORREO_CONTACTO}</a>.</p>
@@ -95,11 +95,11 @@ function correoConfirmacion({ datos, urlPrivacidad }) {
     'Ya estás inscrita o inscrito en Inclusive Talks, segunda edición.',
     '',
     'Fecha: viernes 4 de diciembre de 2026',
-    'Hora: [completar]',
+    'Hora: 10:00 a. m.',
     'Lugar: Salón Azul, Centro Comercial Premium Plaza, Medellín',
     '',
-    `Tu código personal: ${datos.codigo}`,
-    'Lo usarás para registrar tu ingreso y responder las encuestas del evento.',
+    `Tu número de documento: ${datos.documento}`,
+    'Con él registramos tu ingreso y enlazamos tus respuestas a las encuestas del evento.',
     '',
     'Te adjuntamos tu escarapela. Puedes llevarla impresa o mostrarla en el celular.',
     ...(datos.ajustes
@@ -203,7 +203,7 @@ export default async function handler(req, res) {
     escarapela = await generarEscarapela({
       nombre: datos.nombre,
       organizacion: datos.organizacion,
-      codigo: datos.codigo
+      documento: datos.documento
     });
   } catch (err) {
     console.error('No se pudo generar la escarapela:', err?.message);
@@ -222,7 +222,7 @@ export default async function handler(req, res) {
 
   return res.status(200).json({
     ok: true,
-    codigo: datos.codigo,
+    documento: datos.documento,
     correo: datos.correo,
     correoEnviado
   });

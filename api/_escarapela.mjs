@@ -140,7 +140,7 @@ const ICONOS = [
 ];
 
 /* ---------- Escarapela completa ---------- */
-function plantilla({ nombre, organizacion, codigo, qr }) {
+function plantilla({ nombre, organizacion, documento, qr }) {
   const anchoContenido = ANCHO - s(32) * 2;
   const { tamano, lineas } = ajustarNombre(nombre, anchoContenido);
 
@@ -193,7 +193,7 @@ function plantilla({ nombre, organizacion, codigo, qr }) {
     texto({
       fontFamily: 'Poppins', fontWeight: 700, fontSize: s(14), letterSpacing: s(14) * 0.08,
       color: TINTA, marginBottom: s(12)
-    }, codigo),
+    }, documento),
 
     texto({ fontFamily: 'Inter', fontWeight: 400, fontSize: s(11), color: GRIS }, 'Segunda edición · Medellín'),
     texto({ fontFamily: 'Inter', fontWeight: 400, fontSize: s(11), color: GRIS, marginTop: s(2) }, '04 de diciembre, 2026')
@@ -221,9 +221,9 @@ function plantilla({ nombre, organizacion, codigo, qr }) {
  * Genera la escarapela en PNG (800 × 1200 px).
  * @returns {Promise<Buffer>}
  */
-export async function generarEscarapela({ nombre, organizacion, codigo }) {
-  // El QR codifica solo el código personal, nada más.
-  const qr = await QRCode.toDataURL(codigo, {
+export async function generarEscarapela({ nombre, organizacion, documento }) {
+  // El QR codifica solo el número de documento, nada más.
+  const qr = await QRCode.toDataURL(documento, {
     errorCorrectionLevel: 'M',
     margin: 1,
     width: s(84) * 2,
@@ -231,7 +231,7 @@ export async function generarEscarapela({ nombre, organizacion, codigo }) {
   });
 
   const imagen = new ImageResponse(
-    plantilla({ nombre, organizacion, codigo, qr }),
+    plantilla({ nombre, organizacion, documento, qr }),
     { width: ANCHO, height: ALTO, fonts: FUENTES }
   );
 

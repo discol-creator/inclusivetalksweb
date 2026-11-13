@@ -21,10 +21,10 @@ function doPost(e) {
   try {
     const ultima = hoja.getLastRow();
     if (ultima > 1) {
-      const filas = hoja.getRange(2, 3, ultima - 1, 2).getValues(); // C = correo, D = código
-      for (const [correo, codigo] of filas) {
+      const filas = hoja.getRange(2, 3, ultima - 1, 2).getValues(); // C = correo, D = documento
+      for (const [correo, documento] of filas) {
         if (String(correo).trim().toLowerCase() === data.correo) return responder({ ok: false, error: 'correo-duplicado' });
-        if (String(codigo).trim().toUpperCase() === data.codigo) return responder({ ok: false, error: 'codigo-duplicado' });
+        if (String(documento).trim().toUpperCase() === data.documento) return responder({ ok: false, error: 'documento-duplicado' });
       }
     }
     // Orden A a N: no cambiarlo, la hoja calcula indicadores sobre estas columnas.
@@ -32,7 +32,7 @@ function doPost(e) {
       new Date(),                    // A Marca temporal
       data.nombre,                   // B Nombre completo
       data.correo,                   // C Correo electrónico
-      data.codigo,                   // D Código personal
+      data.documento,                // D Número de documento
       data.ciudad,                   // E Ciudad
       data.edad,                     // F Rango de edad
       data.genero,                   // G Género

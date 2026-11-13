@@ -2,24 +2,24 @@
 // escribir en la hoja ni enviar correos. Desactivada en producción.
 //
 //   /api/escarapela-demo
-//   /api/escarapela-demo?nombre=María Fernanda Restrepo&organizacion=Alcaldía de Medellín, asesora&codigo=MR07-42
+//   /api/escarapela-demo?nombre=María Fernanda Restrepo&organizacion=Alcaldía de Medellín, asesora&documento=1020304050
 
 import { generarEscarapela } from './_escarapela.mjs';
-import { normalizarCodigo, CODIGO_RE } from './_campos.mjs';
+import { normalizarDocumento, DOCUMENTO_RE } from './_campos.mjs';
 
 export default async function handler(req, res) {
   if (process.env.VERCEL_ENV === 'production') {
     return res.status(404).json({ ok: false, error: 'No disponible.' });
   }
 
-  const { nombre, organizacion, codigo } = req.query || {};
-  const codigoLimpio = normalizarCodigo(codigo || 'FB07-42');
+  const { nombre, organizacion, documento } = req.query || {};
+  const documentoLimpio = normalizarDocumento(documento || '1020304050');
 
   try {
     const png = await generarEscarapela({
       nombre: String(nombre || 'Francisco José Barragán').slice(0, 120),
       organizacion: organizacion === undefined ? 'Discapacidad Colombia, director' : String(organizacion).slice(0, 160),
-      codigo: CODIGO_RE.test(codigoLimpio) ? codigoLimpio : 'FB07-42'
+      documento: DOCUMENTO_RE.test(documentoLimpio) ? documentoLimpio : '1020304050'
     });
 
     res.setHeader('Content-Type', 'image/png');

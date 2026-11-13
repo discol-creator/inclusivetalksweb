@@ -55,15 +55,17 @@ export const AUTORIZACION_DATOS = 'Autorizo el tratamiento de mis datos según e
 export const AUTORIZACION_IMAGEN = 'Autorizo el uso de mi imagen y voz en fotos, video y transmisión del evento, sin fines comerciales';
 export const VERSION_AVISO = 'aviso-v1-2026-11';
 
-export const CODIGO_RE = /^[A-Z]{2}(0[1-9]|[12][0-9]|3[01])-[0-9]{2}$/;
+// Cédula, cédula de extranjería, tarjeta de identidad o pasaporte: entre 5 y 15
+// caracteres una vez quitados puntos, espacios y guiones.
+export const DOCUMENTO_RE = /^[A-Z0-9]{5,15}$/;
 const CORREO_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Mayúsculas, sin tildes ni espacios, Ñ → N. */
-export function normalizarCodigo(valor) {
+/** Mayúsculas, sin tildes, puntos, espacios ni guiones (la gente escribe 1.020.304.050). */
+export function normalizarDocumento(valor) {
   return String(valor || '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '')
+    .replace(/[^A-Za-z0-9]/g, '')
     .toUpperCase();
 }
 
@@ -91,11 +93,11 @@ export function validar(cuerpo) {
     datos.correo = correo;
   }
 
-  const codigo = normalizarCodigo(cuerpo.codigo);
-  if (!CODIGO_RE.test(codigo)) {
-    errores.codigo = 'Revisa el formato. Ejemplo: FB07-42 (dos letras, día de 01 a 31, guion y dos números).';
+  const documento = normalizarDocumento(cuerpo.documento);
+  if (!DOCUMENTO_RE.test(documento)) {
+    errores.documento = 'Escribe tu número de documento, sin puntos ni espacios (entre 5 y 15 caracteres).';
   } else {
-    datos.codigo = codigo;
+    datos.documento = documento;
   }
 
   const unaOpcion = (clave, lista, mensaje) => {

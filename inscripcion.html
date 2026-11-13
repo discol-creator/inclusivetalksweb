@@ -77,7 +77,7 @@
         </div>
         <div>
           <dt>Hora</dt>
-          <dd>[completar]</dd>
+          <dd>10:00 a. m.</dd>
         </div>
         <div>
           <dt>Lugar</dt>
@@ -85,12 +85,12 @@
         </div>
       </dl>
 
-      <p class="lead">Llenar el formulario toma menos de dos minutos. Al terminar te enviamos por correo tu escarapela y tu código personal.</p>
+      <p class="lead">Llenar el formulario toma menos de dos minutos. Al terminar te enviamos tu escarapela por correo.</p>
 
       <!-- Aviso de datos personales: visible, no en un modal -->
       <div class="aviso-legal">
         <h2 class="aviso-legal__title">Tratamiento de tus datos personales</h2>
-        <p>Discapacidad Colombia (NIT [completar], <a href="mailto:dicapacidad.colombia@gmail.com">dicapacidad.colombia@gmail.com</a>) tratará tus datos según la Ley 1581 de 2012 para gestionar tu inscripción, tu ingreso y tus ajustes de accesibilidad, enviarte información y encuestas del evento, y elaborar estadísticas anónimas. Los datos se guardan en servicios de Google, que pueden estar fuera de Colombia. Puedes conocer, actualizar, rectificar o suprimir tus datos y revocar esta autorización escribiendo al correo. <a href="/privacidad">Aviso completo</a>. Solo para mayores de 18 años.</p>
+        <p>Discapacidad Colombia (NIT [completar], <a href="mailto:dicapacidad.colombia@gmail.com">dicapacidad.colombia@gmail.com</a>) tratará tus datos según la Ley 1581 de 2012 para gestionar tu inscripción, verificar tu identidad en el ingreso y preparar tus ajustes de accesibilidad, enviarte información y encuestas del evento, y elaborar estadísticas anónimas. Los datos se guardan en servicios de Google, que pueden estar fuera de Colombia. Puedes conocer, actualizar, rectificar o suprimir tus datos y revocar esta autorización escribiendo al correo. <a href="/privacidad">Aviso completo</a>. Solo para mayores de 18 años.</p>
       </div>
 
       <div class="form-card">
@@ -118,10 +118,10 @@
           </div>
 
           <div class="form-field">
-            <label for="f-codigo">Código personal <span class="req">(obligatorio)</span></label>
-            <input type="text" id="f-codigo" name="codigo" autocapitalize="characters" autocomplete="off" spellcheck="false" maxlength="8" placeholder="FB07-42" required aria-describedby="ayuda-codigo e-codigo">
-            <p class="form-ayuda" id="ayuda-codigo">Inicial de tu nombre + inicial de tu apellido + día en que naciste + guion + últimos 2 números de tu celular. Ejemplo: FB07-42. Guárdalo: lo pedirán el ingreso y las encuestas del evento.</p>
-            <p class="form-error" id="e-codigo" role="alert" hidden></p>
+            <label for="f-documento">Número de documento <span class="req">(obligatorio)</span></label>
+            <input type="text" id="f-documento" name="documento" autocapitalize="characters" autocomplete="off" spellcheck="false" maxlength="20" placeholder="1020304050" required aria-describedby="ayuda-documento e-documento">
+            <p class="form-ayuda" id="ayuda-documento">Cédula, cédula de extranjería, tarjeta de identidad o pasaporte. Escríbelo sin puntos ni espacios. Con él registramos tu ingreso el día del evento.</p>
+            <p class="form-error" id="e-documento" role="alert" hidden></p>
           </div>
 
           <div class="form-field">
@@ -241,9 +241,9 @@
       <!-- Confirmación: reemplaza al formulario cuando la inscripción queda guardada -->
       <div class="confirmacion" id="confirmacion" hidden>
         <h2 class="confirmacion__title" id="confirmacion-title" tabindex="-1">¡Listo, ya estás inscrita o inscrito!</h2>
-        <p class="confirmacion__label">Tu código personal</p>
-        <p class="confirmacion__codigo" id="confirmacion-codigo"></p>
-        <p class="confirmacion__texto">Guárdalo: lo pedirán el ingreso y las encuestas del evento.</p>
+        <p class="confirmacion__label">Tu número de documento</p>
+        <p class="confirmacion__codigo" id="confirmacion-documento"></p>
+        <p class="confirmacion__texto">Con él registramos tu ingreso el día del evento. Llévalo contigo.</p>
         <p class="confirmacion__texto" id="confirmacion-correo"></p>
         <p class="confirmacion__texto confirmacion__texto--nota" id="confirmacion-nota" hidden>Si el correo no llega en unos minutos, revisa la carpeta de spam o escríbenos a <a href="mailto:dicapacidad.colombia@gmail.com">dicapacidad.colombia@gmail.com</a>.</p>
         <p><a class="btn btn--outline" href="/">Volver al inicio</a></p>

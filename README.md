@@ -79,7 +79,7 @@ Páginas y archivos:
 
 Flujo: el formulario llama a `/api/inscripcion`, que revalida todo, envía la fila al Apps Script de la
 hoja maestra (pestaña `Inscripción`, columnas A a N), genera la escarapela con el nombre, la
-organización, el código y un QR, y manda el correo de confirmación con Resend. Si el correo falla, la
+organización, el número de documento y un QR, y manda el correo de confirmación con Resend. Si el correo falla, la
 inscripción igual queda guardada.
 
 Variables de entorno (Vercel > Settings > Environment Variables, marcadas para **Production** y **Preview**):
@@ -95,7 +95,7 @@ La sección de pre-registro de la landing quedó dentro de un `<template>` en `i
 no la muestra. Para recuperarla, quita las dos etiquetas `<template>` que la envuelven.
 
 Para revisar la escarapela sin escribir en la hoja ni enviar correos, en una vista previa de Vercel:
-`/api/escarapela-demo?nombre=Nombre Apellido&organizacion=Entidad, cargo&codigo=NA07-42`
+`/api/escarapela-demo?nombre=Nombre Apellido&organizacion=Entidad, cargo&documento=1020304050`
 
 ## Contenido y fuente de la verdad
 

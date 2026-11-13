@@ -18,7 +18,7 @@
   var confirmacion = document.getElementById('confirmacion');
 
   var CORREO_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  var CODIGO_RE = /^[A-Z]{2}(0[1-9]|[12][0-9]|3[01])-[0-9]{2}$/;
+  var DOCUMENTO_RE = /^[A-Z0-9]{5,15}$/;
 
   /* ---------- Utilidades ---------- */
   function id(valor) { return document.getElementById(valor); }
@@ -29,11 +29,12 @@
     var elegido = marcados(nombre)[0];
     return elegido ? elegido.value : '';
   }
-  function normalizarCodigo(valor) {
+  // Quita puntos, espacios y guiones: mucha gente escribe 1.020.304.050
+  function normalizarDocumento(valor) {
     return String(valor || '')
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-      .replace(/\s+/g, '')
+      .replace(/[^A-Za-z0-9]/g, '')
       .toUpperCase();
   }
 
@@ -42,7 +43,7 @@
   var CAMPOS = {
     nombre: { error: 'e-nombre', foco: 'f-nombre', etiqueta: 'Nombre completo' },
     correo: { error: 'e-correo', foco: 'f-correo', etiqueta: 'Correo electrónico' },
-    codigo: { error: 'e-codigo', foco: 'f-codigo', etiqueta: 'Código personal' },
+    documento: { error: 'e-documento', foco: 'f-documento', etiqueta: 'Número de documento' },
     ciudad: { error: 'e-ciudad', foco: 'f-ciudad', etiqueta: 'Ciudad' },
     edad: { error: 'e-edad', grupo: 'edad', etiqueta: 'Rango de edad' },
     genero: { error: 'e-genero', grupo: 'genero', etiqueta: 'Género' },
@@ -118,10 +119,10 @@
   conectarOtro('genero', 'Prefiero autodescribirme', 'campo-genero-texto', 'f-genero-texto');
   conectarOtro('ajustes', 'Otro', 'campo-ajustes-texto', 'f-ajustes-texto');
 
-  // El código se guarda en mayúsculas y sin tildes: se muestra así mientras se escribe.
-  var campoCodigo = id('f-codigo');
-  campoCodigo.addEventListener('blur', function () {
-    campoCodigo.value = normalizarCodigo(campoCodigo.value);
+  // El documento se guarda sin puntos ni espacios: se muestra así al salir del campo.
+  var campoDocumento = id('f-documento');
+  campoDocumento.addEventListener('blur', function () {
+    campoDocumento.value = normalizarDocumento(campoDocumento.value);
   });
 
   /* ---------- Validación ---------- */
@@ -129,7 +130,7 @@
     return {
       nombre: id('f-nombre').value.trim().replace(/\s+/g, ' '),
       correo: id('f-correo').value.trim().toLowerCase(),
-      codigo: normalizarCodigo(id('f-codigo').value),
+      documento: normalizarDocumento(id('f-documento').value),
       ciudad: id('f-ciudad').value,
       edad: valorRadio('edad'),
       genero: valorRadio('genero'),
@@ -154,8 +155,8 @@
     if (!CORREO_RE.test(datos.correo)) {
       errores.correo = 'Escribe un correo electrónico válido.';
     }
-    if (!CODIGO_RE.test(datos.codigo)) {
-      errores.codigo = 'Revisa el formato. Ejemplo: FB07-42 (dos letras, día de 01 a 31, guion y dos números).';
+    if (!DOCUMENTO_RE.test(datos.documento)) {
+      errores.documento = 'Escribe tu número de documento, sin puntos ni espacios (entre 5 y 15 caracteres).';
     }
     if (!datos.ciudad) {
       errores.ciudad = 'Elige la ciudad desde donde vienes.';
@@ -185,7 +186,7 @@
   function mostrarConfirmacion(respuesta) {
     form.parentNode.hidden = true;        // oculta la tarjeta del formulario
     confirmacion.hidden = false;
-    id('confirmacion-codigo').textContent = respuesta.codigo;
+    id('confirmacion-documento').textContent = respuesta.documento;
     id('confirmacion-correo').textContent = 'Te enviamos tu escarapela a ' + respuesta.correo + '.';
     id('confirmacion-nota').hidden = respuesta.correoEnviado !== false;
     if (respuesta.correoEnviado === false) {
