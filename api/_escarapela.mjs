@@ -2,7 +2,10 @@
 // Reproduce docs/escarapela-asistente.html como PNG de 800 × 1200 px (diseño de 400 × 600 a 2x).
 // El prefijo "_" evita que Vercel la publique como ruta: es un módulo interno.
 //
-// Rendimiento: nada de esto corre en el navegador. Las fuentes y @vercel/og se cargan
+// Dibuja con satori (HTML/CSS -> SVG) y rasteriza con resvg (SVG -> PNG).
+// No se usa @vercel/og: su bundle hace un require("fs") dinámico que revienta en ESM.
+//
+// Rendimiento: nada de esto corre en el navegador. Las fuentes, satori y resvg se cargan
 // la primera vez que se genera una escarapela, no al importar el módulo, para que un
 // arranque en frío que solo valide o guarde en la hoja no pague ese costo.
 
@@ -241,14 +244,19 @@ function generarQr(documento) {
  * @returns {Promise<Buffer>}
  */
 export async function generarEscarapela({ nombre, organizacion, documento }) {
-  // @vercel/og arrastra satori y un wasm: se importa aquí, no al cargar el módulo.
-  const { ImageResponse } = await import('@vercel/og');
+  // Se importan aquí, no al cargar el módulo: satori y resvg pesan y no siempre hacen falta.
+  const [{ default: satori }, { Resvg }] = await Promise.all([
+    import('satori'),
+    import('@resvg/resvg-js')
+  ]);
 
   const qr = await generarQr(documento);
-  const imagenPng = new ImageResponse(
+
+  // satori convierte cada glifo en trazos, así que el SVG no depende de fuentes del sistema.
+  const svg = await satori(
     plantilla({ nombre, organizacion, qr }),
     { width: ANCHO, height: ALTO, fonts: cargarFuentes() }
   );
 
-  return Buffer.from(await imagenPng.arrayBuffer());
+  return new Resvg(svg).render().asPng();
 }
