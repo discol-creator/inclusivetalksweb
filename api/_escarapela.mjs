@@ -1,9 +1,12 @@
 // Escarapela de asistente · Inclusive Talks Medellín 2026
 // Reproduce docs/escarapela-asistente.html como PNG de 800 × 1200 px (diseño de 400 × 600 a 2x).
 // El prefijo "_" evita que Vercel la publique como ruta: es un módulo interno.
+//
+// Rendimiento: nada de esto corre en el navegador. Las fuentes y @vercel/og se cargan
+// la primera vez que se genera una escarapela, no al importar el módulo, para que un
+// arranque en frío que solo valide o guarde en la hoja no pague ese costo.
 
 import { readFileSync } from 'node:fs';
-import { ImageResponse } from '@vercel/og';
 import QRCode from 'qrcode';
 
 const ESCALA = 2;                 // el diseño mide 400 × 600; se exporta a 2x para impresión
@@ -13,26 +16,32 @@ const ALTO = 600 * ESCALA;
 const AZUL = '#0EA5E9';
 const TINTA = '#1A1A1A';
 const GRIS = '#595959';
+const LINEA = '#D9DCDF';
 const FONDO = '#F2F8FC';
+
+const FECHA = '04 de diciembre, 2026';
 
 const s = (n) => n * ESCALA;      // convierte medidas del diseño a píxeles finales
 
-/* ---------- Fuentes ---------- */
+/* ---------- Fuentes (se leen una sola vez, y solo cuando hacen falta) ---------- */
 // Subconjunto latino descargado de Google Fonts (incluye tildes y ñ).
-const fuente = (archivo) => readFileSync(new URL(`./fonts/${archivo}`, import.meta.url));
-
-const POPPINS_700 = fuente('Poppins-Bold.ttf');
-const POPPINS_800 = fuente('Poppins-ExtraBold.ttf');
-const INTER_400 = fuente('Inter-Regular.ttf');
-const INTER_600 = fuente('Inter-SemiBold.ttf');
-
-const FUENTES = [
-  { name: 'Poppins', data: POPPINS_700, weight: 700, style: 'normal' },
-  { name: 'Poppins', data: POPPINS_800, weight: 800, style: 'normal' },
-  { name: 'Inter', data: INTER_400, weight: 400, style: 'normal' },
-  { name: 'Inter', data: INTER_600, weight: 500, style: 'normal' },
-  { name: 'Inter', data: INTER_600, weight: 600, style: 'normal' }
-];
+let fuentes = null;
+function cargarFuentes() {
+  if (fuentes) return fuentes;
+  const leer = (archivo) => readFileSync(new URL(`./fonts/${archivo}`, import.meta.url));
+  const poppins700 = leer('Poppins-Bold.ttf');
+  const poppins800 = leer('Poppins-ExtraBold.ttf');
+  const inter400 = leer('Inter-Regular.ttf');
+  const inter600 = leer('Inter-SemiBold.ttf');
+  fuentes = [
+    { name: 'Poppins', data: poppins700, weight: 700, style: 'normal' },
+    { name: 'Poppins', data: poppins800, weight: 800, style: 'normal' },
+    { name: 'Inter', data: inter400, weight: 400, style: 'normal' },
+    { name: 'Inter', data: inter600, weight: 500, style: 'normal' },
+    { name: 'Inter', data: inter600, weight: 600, style: 'normal' }
+  ];
+  return fuentes;
+}
 
 /* ---------- Medición del nombre ----------
    Anchos de avance reales de Poppins ExtraBold (em por carácter), extraídos del .ttf.
@@ -82,9 +91,11 @@ function ajustarNombre(nombre, anchoMaximo) {
 /* ---------- Elementos (satori usa objetos con la forma de un elemento de React) ---------- */
 const el = (type, style = {}, children = undefined) => ({ type, props: { style, children } });
 const texto = (style, contenido) => el('div', { display: 'flex', ...style }, contenido);
+const imagen = (src, ancho, alto) => ({ type: 'img', props: { src, width: ancho, height: alto, style: {} } });
 const svgEnLinea = (svg) => `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
 
-// Patrón de puntos: el diseño lo hace con radial-gradient; aquí se dibuja punto por punto.
+// Patrón de puntos: el diseño lo hace con radial-gradient, que satori no repite;
+// aquí se dibuja punto por punto para que el resultado sea idéntico.
 function puntos({ ancho, alto, posicion }) {
   const paso = s(15);
   const radio = s(2.8);
@@ -106,22 +117,21 @@ function puntos({ ancho, alto, posicion }) {
   return el('div', { position: 'absolute', display: 'flex', width: ancho, height: alto, ...posicion }, hijos);
 }
 
-function icono({ svg, etiqueta, ancho, alto }) {
+function eje({ svg, etiqueta, ancho, alto }) {
   return el('div', {
     display: 'flex', flexDirection: 'column', alignItems: 'center', gap: s(6)
   }, [
     el('div', {
       display: 'flex', width: s(42), height: s(42), borderRadius: s(21),
       backgroundColor: 'rgba(26,26,26,0.055)', alignItems: 'center', justifyContent: 'center'
-    }, [{ type: 'img', props: { src: svgEnLinea(svg), width: ancho, height: alto, style: {} } }]),
+    }, [imagen(svgEnLinea(svg), ancho, alto)]),
     texto({
-      fontFamily: 'Inter', fontWeight: 600, fontSize: s(9), letterSpacing: s(9) * 0.06,
-      color: GRIS
+      fontFamily: 'Inter', fontWeight: 600, fontSize: s(9), letterSpacing: s(9) * 0.06, color: GRIS
     }, etiqueta)
   ]);
 }
 
-const ICONOS = [
+const EJES = [
   {
     etiqueta: 'CURIOSIDADES',
     ancho: s(20), alto: s(20),
@@ -130,19 +140,22 @@ const ICONOS = [
   {
     etiqueta: 'TIPS',
     ancho: s(18), alto: s(20),
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${s(18)}" height="${s(20)}" viewBox="0 0 28 30" fill="none"><rect x="3" y="17" width="5" height="8" rx="1.5" fill="#D9DCDF"/><rect x="11.5" y="12" width="5" height="13" rx="1.5" fill="#7DD3FC"/><rect x="20" y="5" width="5" height="20" rx="1.5" fill="${AZUL}"/><circle cx="22.5" cy="2.5" r="2.4" fill="${TINTA}"/></svg>`
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${s(18)}" height="${s(20)}" viewBox="0 0 28 30" fill="none"><rect x="3" y="17" width="5" height="8" rx="1.5" fill="${LINEA}"/><rect x="11.5" y="12" width="5" height="13" rx="1.5" fill="#7DD3FC"/><rect x="20" y="5" width="5" height="20" rx="1.5" fill="${AZUL}"/><circle cx="22.5" cy="2.5" r="2.4" fill="${TINTA}"/></svg>`
   },
   {
     etiqueta: 'DEBATE',
     ancho: s(24), alto: s(10),
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${s(24)}" height="${s(10)}" viewBox="0 0 32 12" fill="none"><circle cx="4" cy="6" r="4" fill="${TINTA}"/><rect x="10" y="5" width="12" height="2" rx="1" fill="#D9DCDF"/><circle cx="28" cy="6" r="4" fill="${AZUL}"/></svg>`
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${s(24)}" height="${s(10)}" viewBox="0 0 32 12" fill="none"><circle cx="4" cy="6" r="4" fill="${TINTA}"/><rect x="10" y="5" width="12" height="2" rx="1" fill="${LINEA}"/><circle cx="28" cy="6" r="4" fill="${AZUL}"/></svg>`
   }
 ];
 
-/* ---------- Escarapela completa ---------- */
-function plantilla({ nombre, organizacion, documento, qr }) {
+/* ---------- Escarapela completa ----------
+   Se exporta para poder renderizarla con satori fuera del servidor y revisar el diseño. */
+export function plantilla({ nombre, organizacion, qr }) {
   const anchoContenido = ANCHO - s(32) * 2;
   const { tamano, lineas } = ajustarNombre(nombre, anchoContenido);
+  const bordeQr = s(1.5);
+  const ladoQr = s(84);
 
   const contenido = [
     // Logotipo
@@ -173,8 +186,7 @@ function plantilla({ nombre, organizacion, documento, qr }) {
   // La línea de organización se oculta cuando viene vacía.
   if (organizacion) {
     contenido.push(texto({
-      fontFamily: 'Inter', fontWeight: 500, fontSize: s(14), color: GRIS,
-      marginBottom: s(24), textAlign: 'center'
+      fontFamily: 'Inter', fontWeight: 500, fontSize: s(14), color: GRIS, marginBottom: s(24)
     }, organizacion));
   }
 
@@ -183,20 +195,17 @@ function plantilla({ nombre, organizacion, documento, qr }) {
 
     el('div', {
       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: s(26), marginBottom: s(22)
-    }, ICONOS.map(icono)),
+    }, EJES.map(eje)),
 
+    // Recuadro punteado del QR
     el('div', {
-      display: 'flex', width: s(84), height: s(84), alignItems: 'center', justifyContent: 'center',
-      marginBottom: s(6)
-    }, [{ type: 'img', props: { src: qr, width: s(84), height: s(84), style: {} } }]),
-
-    texto({
-      fontFamily: 'Poppins', fontWeight: 700, fontSize: s(14), letterSpacing: s(14) * 0.08,
-      color: TINTA, marginBottom: s(12)
-    }, documento),
+      display: 'flex', width: ladoQr, height: ladoQr,
+      border: `${bordeQr}px dashed ${LINEA}`, borderRadius: s(10),
+      alignItems: 'center', justifyContent: 'center', marginBottom: s(16)
+    }, [imagen(qr, ladoQr - bordeQr * 2, ladoQr - bordeQr * 2)]),
 
     texto({ fontFamily: 'Inter', fontWeight: 400, fontSize: s(11), color: GRIS }, 'Segunda edición · Medellín'),
-    texto({ fontFamily: 'Inter', fontWeight: 400, fontSize: s(11), color: GRIS, marginTop: s(2) }, '04 de diciembre, 2026')
+    texto({ fontFamily: 'Inter', fontWeight: 400, fontSize: s(11), color: GRIS, marginTop: s(2) }, FECHA)
   );
 
   return el('div', {
@@ -217,23 +226,29 @@ function plantilla({ nombre, organizacion, documento, qr }) {
   ]);
 }
 
-/**
- * Genera la escarapela en PNG (800 × 1200 px).
- * @returns {Promise<Buffer>}
- */
-export async function generarEscarapela({ nombre, organizacion, documento }) {
-  // El QR codifica solo el número de documento, nada más.
-  const qr = await QRCode.toDataURL(documento, {
+/** QR del número de documento, como data URI PNG. */
+function generarQr(documento) {
+  return QRCode.toDataURL(documento, {
     errorCorrectionLevel: 'M',
     margin: 1,
     width: s(84) * 2,
     color: { dark: `${TINTA}ff`, light: `${FONDO}ff` }
   });
+}
 
-  const imagen = new ImageResponse(
-    plantilla({ nombre, organizacion, documento, qr }),
-    { width: ANCHO, height: ALTO, fonts: FUENTES }
+/**
+ * Genera la escarapela en PNG (800 × 1200 px).
+ * @returns {Promise<Buffer>}
+ */
+export async function generarEscarapela({ nombre, organizacion, documento }) {
+  // @vercel/og arrastra satori y un wasm: se importa aquí, no al cargar el módulo.
+  const { ImageResponse } = await import('@vercel/og');
+
+  const qr = await generarQr(documento);
+  const imagenPng = new ImageResponse(
+    plantilla({ nombre, organizacion, qr }),
+    { width: ANCHO, height: ALTO, fonts: cargarFuentes() }
   );
 
-  return Buffer.from(await imagen.arrayBuffer());
+  return Buffer.from(await imagenPng.arrayBuffer());
 }

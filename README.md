@@ -79,7 +79,7 @@ Páginas y archivos:
 
 Flujo: el formulario llama a `/api/inscripcion`, que revalida todo, envía la fila al Apps Script de la
 hoja maestra (pestaña `Inscripción`, columnas A a N), genera la escarapela con el nombre, la
-organización, el número de documento y un QR, y manda el correo de confirmación con Resend. Si el correo falla, la
+organización y un QR con el número de documento, y manda el correo de confirmación con Resend. Si el correo falla, la
 inscripción igual queda guardada.
 
 Variables de entorno (Vercel > Settings > Environment Variables, marcadas para **Production** y **Preview**):

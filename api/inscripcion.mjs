@@ -8,7 +8,6 @@
 //   EMAIL_FROM         remitente verificado; si falta se usa RESEND_FROM y, en últimas, el de pruebas
 
 import { validar, VERSION_AVISO } from './_campos.mjs';
-import { generarEscarapela } from './_escarapela.mjs';
 
 const CORREO_CONTACTO = 'dicapacidad.colombia@gmail.com'; // se escribe así, sin la "s". No corregir.
 const TIEMPO_MINIMO_MS = 3000;
@@ -200,6 +199,9 @@ export default async function handler(req, res) {
 
   let escarapela = null;
   try {
+    // Se carga aquí y no arriba: el generador arrastra satori, un wasm y las fuentes,
+    // y un arranque en frío que solo valide o guarde en la hoja no tiene por qué pagarlo.
+    const { generarEscarapela } = await import('./_escarapela.mjs');
     escarapela = await generarEscarapela({
       nombre: datos.nombre,
       organizacion: datos.organizacion,
