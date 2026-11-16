@@ -71,6 +71,14 @@ export function normalizarDocumento(valor) {
 
 const texto = (valor) => (typeof valor === 'string' ? valor.trim().replace(/\s+/g, ' ') : '');
 
+// Primera letra en mayúscula, sin tocar el resto: "ONG" o "de Antioquia" quedan como se
+// escribieron. Se aplica al cargo, que es lo que se imprime en la escarapela.
+const capitalizar = (valor) => (valor ? valor.charAt(0).toUpperCase() + valor.slice(1) : '');
+
+// Concordancia de género para los mensajes. Solo cuando la persona lo dijo de forma
+// inequívoca; en cualquier otro caso se usa una redacción sin marca de género.
+const CONCORDANCIA = { Mujer: 'femenino', Hombre: 'masculino' };
+
 /**
  * Revalida lo que llega del navegador. Devuelve { datos } o { errores }.
  * Las claves de `errores` coinciden con los campos del formulario.
@@ -126,7 +134,7 @@ export function validar(cuerpo) {
   if (organizacion.length > 160) {
     errores.organizacion = 'Usa 160 caracteres o menos.';
   } else {
-    datos.organizacion = organizacion;
+    datos.organizacion = capitalizar(organizacion);
   }
 
   // Ajustes de accesibilidad: lista opcional; "Otro" se reemplaza por el texto escrito.
@@ -152,5 +160,9 @@ export function validar(cuerpo) {
 
   datos.autorizacionImagen = texto(cuerpo.autorizacionImagen) === AUTORIZACION_IMAGEN ? AUTORIZACION_IMAGEN : '';
 
-  return Object.keys(errores).length ? { errores } : { datos };
+  if (Object.keys(errores).length) return { errores };
+
+  // La opción elegida, no el texto libre de "Prefiero autodescribirme": de ese no se infiere nada.
+  const concordancia = CONCORDANCIA[texto(cuerpo.genero)] || 'neutro';
+  return { datos, concordancia };
 }

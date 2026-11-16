@@ -13,6 +13,7 @@
   },
   "scripts": {
     "dev": "npx vercel dev",
-    "escarapela": "node scripts/probar-escarapela.mjs"
+    "escarapela": "node scripts/probar-escarapela.mjs",
+    "escarapelas": "node scripts/escarapelas-desde-csv.mjs"
   }
 }

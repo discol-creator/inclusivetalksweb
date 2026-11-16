@@ -1388,3 +1388,39 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
 .legal__lista li { margin-bottom: 0.4rem; }
 
 .legal__volver { margin-top: 2.5rem; }
+
+/* ---------- Validación de escarapelas (validar.html) ---------- */
+
+.validacion {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  margin: 1.5rem 0;
+  text-align: center;
+  background: var(--bg);
+}
+
+.validacion__estado {
+  margin: 0;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.validacion__detalle {
+  margin: 0.75rem 0 0;
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.validacion[data-estado="valida"] {
+  border-color: #146C2E;
+  background: #E7F6EC;
+}
+.validacion[data-estado="valida"] .validacion__estado { color: #0F5223; }
+
+.validacion[data-estado="invalida"] {
+  border-color: #B5350F;
+  background: var(--coral-tint);
+}
+.validacion[data-estado="invalida"] .validacion__estado { color: #8A2708; }

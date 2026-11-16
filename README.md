@@ -74,6 +74,9 @@ Páginas y archivos:
 | `api/_campos.mjs` | Opciones del formulario y validación del servidor (los textos deben ser idénticos a los del HTML) |
 | `api/_escarapela.mjs` | Genera la escarapela en PNG de 800 × 1200 px |
 | `api/escarapela-demo.mjs` | Vista previa de la escarapela, desactivada en producción |
+| `api/_firma.mjs` | Firma y comprueba la credencial que lleva el QR |
+| `api/validar.mjs` | Comprueba una escarapela escaneada |
+| `validar.html` + `js/validar.js` | Página `/validar` que muestra el resultado del escaneo |
 | `api/fonts/` | Poppins e Inter en TTF, necesarias para dibujar el PNG |
 | `docs/apps-script-inscripcion.gs` | Código que va en la hoja de Google (Extensiones > Apps Script) |
 
@@ -87,20 +90,50 @@ Variables de entorno (Vercel > Settings > Environment Variables, marcadas para *
 | Variable | Para qué |
 |---|---|
 | `APPS_SCRIPT_URL` | URL de la app web del Apps Script |
-| `APPS_SCRIPT_TOKEN` | Clave compartida; debe ser igual a `TOKEN` en el Apps Script |
+| `APPS_SCRIPT_TOKEN` | Clave compartida; debe ser igual a `TOKEN` en el Apps Script. También firma los QR si no hay `ESCARAPELA_SECRET` |
 | `RESEND_API_KEY` | Clave de Resend (la misma del pre-registro) |
 | `EMAIL_FROM` | Remitente verificado en Resend. Si falta se usa `RESEND_FROM` |
+| `ESCARAPELA_SECRET` | Opcional. Clave para firmar los QR; si falta se deriva de `APPS_SCRIPT_TOKEN` |
+| `SITE_URL` | Opcional. Dominio para los QR generados desde los scripts; en la web se detecta solo |
 
 La sección de pre-registro de la landing quedó dentro de un `<template>` en `index.html`: el navegador
 no la muestra. Para recuperarla, quita las dos etiquetas `<template>` que la envuelven.
 
-Para revisar la escarapela sin escribir en la hoja ni enviar correos hay dos caminos:
+### Escarapelas
 
-- **En una vista previa de Vercel** (no necesita Node en tu equipo, y usa el mismo entorno que producción):
+Hay dos tipos: `asistente` y `ponente`. Cambian solo en la pastilla del encabezado.
+
+Para revisar una sin escribir en la hoja ni enviar correos:
+
+- **En una vista previa de Vercel** (no necesita Node, y usa el mismo entorno que producción):
   `/api/escarapela-demo?nombre=Nombre Apellido&organizacion=Entidad, cargo&documento=1020304050`
 - **En local**, con Node 22 y `npm install` hechos:
-  `npm run escarapela -- "Nombre Apellido" "Entidad, cargo" 1020304050`
-  Deja el PNG en `escarapela-prueba.png`.
+  `npm run escarapela -- ponente "Nombre Apellido" "Entidad, cargo" 1020304050`
+
+Cada archivo queda en `escarapelas/<tipo>/<documento>-<nombre>.png`. Esa carpeta está en
+`.gitignore`: las escarapelas llevan datos personales y no van al repositorio.
+
+### Respaldo de las escarapelas
+
+No se guarda ninguna imagen en ningún servicio, ni en el servidor ni en la nube. No hace falta:
+la escarapela se deduce por completo de la fila de la hoja (nombre, organización y documento),
+así que **el respaldo es la hoja misma**. Para volver a tenerlas todas:
+
+1. En Google Sheets: Archivo > Descargar > Valores separados por comas (.csv)
+2. `npm run escarapelas -- inscripciones.csv`
+
+Regenera una por fila en `escarapelas/asistente/`. Para los ponentes, con su propio CSV:
+`npm run escarapelas -- ponentes.csv ponente`
+
+### Validación del QR
+
+El QR no lleva el número de documento suelto: lleva una URL a `/validar` con una credencial
+firmada (HMAC-SHA256). Quien escanee con la cámara del celular ve si la escarapela es auténtica
+y qué documento le corresponde, para contrastarlo con la cédula de la persona. Una escarapela
+fabricada por fuera no pasa la comprobación.
+
+El dato viaja en el fragmento de la URL (después de `#`), que el navegador nunca envía al
+servidor: el número de documento no queda en los registros de Vercel.
 
 ## Contenido y fuente de la verdad
 

@@ -11,6 +11,7 @@
 
 import { readFileSync } from 'node:fs';
 import QRCode from 'qrcode';
+import { urlDeValidacion } from './_firma.mjs';
 
 const ESCALA = 2;                 // el diseño mide 400 × 600; se exporta a 2x para impresión
 const ANCHO = 400 * ESCALA;
@@ -23,6 +24,10 @@ const LINEA = '#D9DCDF';
 const FONDO = '#F2F8FC';
 
 const FECHA = '04 de diciembre, 2026';
+const SITIO_POR_DEFECTO = 'https://inclusivetalksweb.vercel.app';
+
+// Texto de la pastilla según el tipo de escarapela.
+const ETIQUETAS = { asistente: 'ASISTENTE', ponente: 'PONENTE' };
 
 const s = (n) => n * ESCALA;      // convierte medidas del diseño a píxeles finales
 
@@ -154,7 +159,7 @@ const EJES = [
 
 /* ---------- Escarapela completa ----------
    Se exporta para poder renderizarla con satori fuera del servidor y revisar el diseño. */
-export function plantilla({ nombre, organizacion, qr }) {
+export function plantilla({ nombre, organizacion, qr, tipo = 'asistente' }) {
   const anchoContenido = ANCHO - s(32) * 2;
   const { tamano, lineas } = ajustarNombre(nombre, anchoContenido);
   const bordeQr = s(1.5);
@@ -175,7 +180,7 @@ export function plantilla({ nombre, organizacion, qr }) {
       padding: `${s(6)}px ${s(18)}px`, borderRadius: s(999), border: `${s(1.5)}px solid ${TINTA}`,
       color: TINTA, fontFamily: 'Poppins', fontWeight: 700, fontSize: s(12),
       letterSpacing: s(12) * 0.08, marginBottom: s(28)
-    }, 'ASISTENTE'),
+    }, ETIQUETAS[tipo] || ETIQUETAS.asistente),
 
     // Nombre (una o dos líneas)
     el('div', {
@@ -229,9 +234,9 @@ export function plantilla({ nombre, organizacion, qr }) {
   ]);
 }
 
-/** QR del número de documento, como data URI PNG. */
-function generarQr(documento) {
-  return QRCode.toDataURL(documento, {
+/** QR como data URI PNG. Codifica la credencial firmada, no el documento a secas. */
+function generarQr(contenido) {
+  return QRCode.toDataURL(contenido, {
     errorCorrectionLevel: 'M',
     margin: 1,
     width: s(84) * 2,
@@ -243,18 +248,23 @@ function generarQr(documento) {
  * Genera la escarapela en PNG (800 × 1200 px).
  * @returns {Promise<Buffer>}
  */
-export async function generarEscarapela({ nombre, organizacion, documento }) {
+export async function generarEscarapela({ nombre, organizacion, documento, tipo = 'asistente', urlBase }) {
   // Se importan aquí, no al cargar el módulo: satori y resvg pesan y no siempre hacen falta.
   const [{ default: satori }, { Resvg }] = await Promise.all([
     import('satori'),
     import('@resvg/resvg-js')
   ]);
 
-  const qr = await generarQr(documento);
+  // El QR lleva una URL firmada que permite validar la escarapela. Si no hay clave
+  // configurada se cae al documento a secas, para no quedarnos sin QR.
+  const sitio = urlBase || process.env.SITE_URL || SITIO_POR_DEFECTO;
+  const url = urlDeValidacion({ urlBase: sitio, tipo, documento });
+  if (!url) console.error('Sin ESCARAPELA_SECRET ni APPS_SCRIPT_TOKEN: el QR va sin firmar.');
+  const qr = await generarQr(url || documento);
 
   // satori convierte cada glifo en trazos, así que el SVG no depende de fuentes del sistema.
   const svg = await satori(
-    plantilla({ nombre, organizacion, qr }),
+    plantilla({ nombre, organizacion, qr, tipo }),
     { width: ANCHO, height: ALTO, fonts: cargarFuentes() }
   );
 

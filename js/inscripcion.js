@@ -194,6 +194,8 @@
         'Tu inscripción quedó guardada. Estamos teniendo problemas para enviar el correo a ' + respuesta.correo + '.';
     }
     var titulo = id('confirmacion-title');
+    // El servidor decide la redacción según el género declarado.
+    if (respuesta.titulo) titulo.textContent = respuesta.titulo;
     titulo.focus();
     titulo.scrollIntoView({ block: 'center' });
   }

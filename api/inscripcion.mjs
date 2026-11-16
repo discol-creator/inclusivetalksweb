@@ -10,6 +10,23 @@
 import { validar, VERSION_AVISO } from './_campos.mjs';
 
 const CORREO_CONTACTO = 'dicapacidad.colombia@gmail.com'; // se escribe así, sin la "s". No corregir.
+
+// Redacción según el género que la persona declaró. "neutro" cubre a quien eligió
+// persona no binaria, se autodescribió o prefirió no decirlo: ahí no se infiere nada.
+const MENSAJES = {
+  femenino: {
+    confirmacion: 'Ya estás inscrita en Inclusive Talks, segunda edición.',
+    titulo: '¡Listo, ya estás inscrita!'
+  },
+  masculino: {
+    confirmacion: 'Ya estás inscrito en Inclusive Talks, segunda edición.',
+    titulo: '¡Listo, ya estás inscrito!'
+  },
+  neutro: {
+    confirmacion: 'Tu inscripción a Inclusive Talks, segunda edición, quedó lista.',
+    titulo: '¡Listo, tu inscripción quedó registrada!'
+  }
+};
 const TIEMPO_MINIMO_MS = 3000;
 
 const MENSAJES_HOJA = {
@@ -61,9 +78,10 @@ async function guardarEnHoja(datos) {
   return { mensaje: MENSAJES_HOJA[resultado.error] || MENSAJE_HOJA_GENERICO };
 }
 
-function correoConfirmacion({ datos, urlPrivacidad }) {
+function correoConfirmacion({ datos, urlPrivacidad, concordancia }) {
   const nombre = escaparHtml(primerNombre(datos.nombre));
   const documento = escaparHtml(datos.documento);
+  const mensaje = MENSAJES[concordancia] || MENSAJES.neutro;
 
   const parrafoAjustes = datos.ajustes
     ? `<p style="margin:0 0 16px">Recibimos tu solicitud de estos ajustes de accesibilidad: ${escaparHtml(datos.ajustes)}. Si necesitamos más información, te escribiremos.</p>`
@@ -73,7 +91,7 @@ function correoConfirmacion({ datos, urlPrivacidad }) {
 <html lang="es"><body style="margin:0;padding:24px;background:#F2F8FC;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:#1A1A1A">
 <div style="max-width:560px;margin:0 auto;background:#FFFFFF;border-radius:16px;padding:28px">
   <p style="margin:0 0 16px">Hola, ${nombre}:</p>
-  <p style="margin:0 0 16px">Ya estás inscrita o inscrito en Inclusive Talks, segunda edición.</p>
+  <p style="margin:0 0 16px">${escaparHtml(mensaje.confirmacion)}</p>
   <p style="margin:0 0 16px">
     <strong>Fecha:</strong> viernes 4 de diciembre de 2026<br>
     <strong>Hora:</strong> 10:00 a. m.<br>
@@ -91,7 +109,7 @@ function correoConfirmacion({ datos, urlPrivacidad }) {
   const texto = [
     `Hola, ${primerNombre(datos.nombre)}:`,
     '',
-    'Ya estás inscrita o inscrito en Inclusive Talks, segunda edición.',
+    mensaje.confirmacion,
     '',
     'Fecha: viernes 4 de diciembre de 2026',
     'Hora: 10:00 a. m.',
@@ -113,12 +131,12 @@ function correoConfirmacion({ datos, urlPrivacidad }) {
   return { html, texto };
 }
 
-async function enviarCorreo({ datos, escarapela, urlPrivacidad }) {
+async function enviarCorreo({ datos, escarapela, urlPrivacidad, concordancia }) {
   const remitente = process.env.EMAIL_FROM
     || process.env.RESEND_FROM
     || 'Inclusive Talks <onboarding@resend.dev>';
 
-  const { html, texto } = correoConfirmacion({ datos, urlPrivacidad });
+  const { html, texto } = correoConfirmacion({ datos, urlPrivacidad, concordancia });
 
   const adjuntos = escarapela
     ? [{ filename: 'escarapela-inclusive-talks.png', content: escarapela.toString('base64') }]
@@ -169,7 +187,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: 'Tómate unos segundos más y vuelve a enviar el formulario.' });
   }
 
-  const { datos, errores } = validar(cuerpo);
+  const { datos, errores, concordancia } = validar(cuerpo);
   if (errores) {
     return res.status(400).json({ ok: false, error: 'Revisa los campos marcados.', errores });
   }
@@ -195,7 +213,8 @@ export default async function handler(req, res) {
 
   // Desde aquí la inscripción ya quedó guardada: nunca devolvemos error a la persona.
   const host = req.headers['x-forwarded-host'] || req.headers.host;
-  const urlPrivacidad = `https://${host}/privacidad`;
+  const urlBase = `https://${host}`;
+  const urlPrivacidad = `${urlBase}/privacidad`;
 
   let escarapela = null;
   try {
@@ -205,7 +224,9 @@ export default async function handler(req, res) {
     escarapela = await generarEscarapela({
       nombre: datos.nombre,
       organizacion: datos.organizacion,
-      documento: datos.documento
+      documento: datos.documento,
+      tipo: 'asistente',
+      urlBase
     });
   } catch (err) {
     console.error('No se pudo generar la escarapela:', err?.message);
@@ -214,7 +235,7 @@ export default async function handler(req, res) {
   let correoEnviado = false;
   try {
     if (process.env.RESEND_API_KEY) {
-      correoEnviado = await enviarCorreo({ datos, escarapela, urlPrivacidad });
+      correoEnviado = await enviarCorreo({ datos, escarapela, urlPrivacidad, concordancia });
     } else {
       console.error('Falta RESEND_API_KEY en las variables de entorno.');
     }
@@ -226,6 +247,7 @@ export default async function handler(req, res) {
     ok: true,
     documento: datos.documento,
     correo: datos.correo,
-    correoEnviado
+    correoEnviado,
+    titulo: (MENSAJES[concordancia] || MENSAJES.neutro).titulo
   });
 }

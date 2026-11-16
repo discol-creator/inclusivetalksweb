@@ -5,7 +5,7 @@ node_modules
 .env*.local
 .vercel
 
-# Salida de "npm run escarapela"
-escarapela-prueba.png
+# Escarapelas generadas: llevan datos personales, no van al repositorio
+escarapelas/
 
 .DS_Store
