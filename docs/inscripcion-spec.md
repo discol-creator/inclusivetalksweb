@@ -1,5 +1,7 @@
 # Especificación · Inscripción Inclusive Talks Medellín 2026
 
+> Actualizado el 16/11/2026: el campo pasó de «código personal» a **número de documento**, y la hora del evento quedó fijada a las 10:00 a. m.
+
 Fuente de verdad: proyecto "Inclusive Talks · Evidencia de Impacto" (Bloque C, aprobado el 2026-11-13). Acompaña al prompt para Claude Code. En contenido gana este archivo; en estilo visual gana la landing.
 
 ## 1. Flujo (lo único que hay que construir)
@@ -35,7 +37,7 @@ El orden visual es el orden de las columnas en la hoja. Los textos de las opcion
 |---|---|---|---|
 | Nombre completo (`nombre`) | text, `autocomplete="name"` | Sí | 3 a 120 caracteres |
 | Correo electrónico (`correo`) | email, `autocomplete="email"` | Sí | Se guarda en minúsculas |
-| Código personal (`codigo`) | text, `autocapitalize="characters"` | Sí | `^[A-Z]{2}(0[1-9]\|[12][0-9]\|3[01])-[0-9]{2}$`. Pasar a mayúsculas, quitar tildes y espacios, Ñ→N |
+| Número de documento (`documento`) | text, `autocapitalize="characters"` | Sí | `^[A-Z0-9]{5,15}$` una vez quitados puntos, espacios, guiones y tildes. Cédula, cédula de extranjería, tarjeta de identidad o pasaporte |
 | Ciudad (`ciudad`) | select | Sí | Medellín; Otro municipio del Valle de Aburrá; Otro municipio de Antioquia; Cali; Otro municipio del Valle del Cauca; Bogotá D.C.; Otra ciudad de Colombia; Fuera de Colombia |
 | Rango de edad (`edad`) | radios | Sí | 18 a 28 años; 29 a 39 años; 40 a 49 años; 50 a 59 años; 60 años o más; Prefiero no decir |
 | Género (`genero`) | radios | Sí | Mujer; Hombre; Persona no binaria; Prefiero autodescribirme (abre texto y se guarda lo escrito); Prefiero no decir |
@@ -47,7 +49,7 @@ El orden visual es el orden de las columnas en la hoja. Los textos de las opcion
 
 La función agrega `token` (= `APPS_SCRIPT_TOKEN`) y `versionAviso: "aviso-v1-2026-11"` antes de enviar al Apps Script.
 
-Ayuda del código personal: "Inicial de tu nombre + inicial de tu apellido + día en que naciste + guion + últimos 2 números de tu celular. Ejemplo: FB07-42. Guárdalo: lo pedirán el ingreso y las encuestas del evento."
+Ayuda del número de documento: "Cédula, cédula de extranjería, tarjeta de identidad o pasaporte. Escríbelo sin puntos ni espacios. Con él registramos tu ingreso el día del evento."
 
 ## 4. Llamada al Apps Script
 
@@ -58,7 +60,7 @@ Ayuda del código personal: "Inicial de tu nombre + inicial de tu apellido + dí
 ## 5. Escarapela
 
 - Reproducir `docs/escarapela-asistente.html` como imagen PNG de 800 × 1200 px (el diseño es de 400 × 600; generar a 2x para impresión).
-- Variables: `{{nombre}}`, `{{organizacion}}` (si está vacío, ocultar la línea), `{{codigo}}` y `{{qr}}` (QR que codifica solo el código personal, ej. `FB07-42`).
+- Variables: `{{nombre}}`, `{{organizacion}}` (si está vacío, ocultar la línea) y `{{qr}}`. El número de documento no se imprime: va solo dentro del QR, en una credencial firmada que permite validar la escarapela en `/validar`.
 - Generarla en el servidor (por ejemplo con `@vercel/og` o `satori` + `resvg`) y adjuntarla al correo como `escarapela-inclusive-talks.png`. No publicarla en una URL abierta, porque lleva datos personales.
 - Fuentes: Poppins 700/800 e Inter 400/500/600 (Google Fonts). Colores: fondo #F2F8FC, acento #0EA5E9, texto #1A1A1A, secundario #595959.
 - Nombres largos: reducir el tamaño del nombre hasta que quepa en dos líneas como máximo.
@@ -74,11 +76,11 @@ Cuerpo (HTML simple y accesible, más versión en texto plano):
 > Ya estás inscrita o inscrito en Inclusive Talks, segunda edición.
 >
 > **Fecha:** viernes 4 de diciembre de 2026
-> **Hora:** [completar]
+> **Hora:** 10:00 a. m.
 > **Lugar:** Salón Azul, Centro Comercial Premium Plaza, Medellín
 >
-> **Tu código personal: {{codigo}}**
-> Lo usarás para registrar tu ingreso y responder las encuestas del evento.
+> **Tu número de documento: {{documento}}**
+> Con él registramos tu ingreso y enlazamos tus respuestas a las encuestas del evento.
 >
 > Te adjuntamos tu escarapela. Puedes llevarla impresa o mostrarla en el celular.
 >
@@ -102,7 +104,7 @@ Página `/privacidad`:
 >
 > Finalidades: (1) gestionar tu inscripción y tu ingreso a Inclusive Talks Medellín 2026; (2) preparar los ajustes de accesibilidad que pidas; (3) enviarte información logística del evento y tu escarapela; (4) invitarte a encuestas de evaluación antes y después del evento y a seguimientos a los 3, 6 y 12 meses; (5) elaborar estadísticas agregadas y anónimas para informes a patrocinadores, aliados y autoridades. Nunca entregaremos a terceros datos que te identifiquen.
 >
-> Código personal: el código que crees une tus respuestas entre formularios sin usar tu nombre. Los análisis se hacen con el código.
+> Número de documento: se pide para verificar la identidad en el ingreso y para enlazar las respuestas entre formularios. Es un dato que identifica a la persona; las estadísticas que se comparten son agregadas y no permiten identificarla.
 >
 > Almacenamiento y envíos: los datos se guardan en servicios de Google LLC y los correos se envían con Resend; ambos actúan como encargados del tratamiento y pueden alojar los datos fuera de Colombia. Los conservaremos hasta el [completar, sugerido 31/12/2027]; después se eliminarán o anonimizarán.
 >
