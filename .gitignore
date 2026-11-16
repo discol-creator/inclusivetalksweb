@@ -1,0 +1,11 @@
+node_modules
+
+.env
+.env.local
+.env*.local
+.vercel
+
+# Escarapelas generadas: llevan datos personales, no van al repositorio
+escarapelas/
+
+.DS_Store

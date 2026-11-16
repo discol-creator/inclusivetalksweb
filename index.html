@@ -68,7 +68,7 @@
         <li><a href="#antecedente">Antecedente</a></li>
         <li><a href="#alianzas">Alianzas</a></li>
       </ul>
-      <a href="#preregistro" class="btn btn--primary btn--small">Quiero enterarme primero</a>
+      <a href="/inscripcion" class="btn btn--primary btn--small">Inscríbete</a>
     </nav>
   </div>
 </header>
@@ -90,7 +90,7 @@
       <p class="hero__headline">El summit de discapacidad que Colombia no tenía.</p>
       <p class="hero__subhead">Un evento de divulgación, cultura y debate que reúne a personas con y sin discapacidad, empresas, academia y legisladores en un mismo espacio, para construir el summit de referencia sobre discapacidad en Colombia y la región.</p>
       <div class="hero__actions">
-        <a href="#preregistro" class="btn btn--primary">Quiero enterarme primero</a>
+        <a href="/inscripcion" class="btn btn--primary">Inscríbete al evento</a>
         <a href="#alianzas" class="btn btn--outline btn--on-dark">Ser aliado institucional</a>
       </div>
     </div>
@@ -107,7 +107,7 @@
         </span>
       </div>
       <h2 id="lanzamiento-heading" class="h1">Segunda edición.<br>Medellín, 2026.</h2>
-      <p class="lead">Después de su primera edición en Bogotá, Inclusive Talks se prepara para llegar a Medellín. Todavía no hay fecha exacta confirmada: en cuanto la tengamos, será lo primero que compartamos con quienes se inscriban a continuación.</p>
+      <p class="lead">Después de su primera edición en Bogotá, Inclusive Talks se prepara para llegar a Medellín. Todavía no hay fecha exacta confirmada: en cuanto la tengamos, será lo primero que compartamos con quienes se inscriban al evento.</p>
 
       <ol class="route">
         <li class="route__step is-done">
@@ -213,6 +213,10 @@
     </div>
   </section>
 
+  <!-- PRE-REGISTRO · oculto desde que abrió la inscripción al evento del 4 de diciembre de 2026.
+       Dentro de <template> el navegador no lo muestra ni lo enfoca. Para recuperarlo,
+       quita las dos etiquetas <template> que lo envuelven. -->
+  <template id="preregistro-oculto">
   <!-- PRE-REGISTRO -->
   <section class="section section--white" id="preregistro" aria-labelledby="preregistro-heading">
     <div class="wrap">
@@ -271,6 +275,7 @@
       </div>
     </div>
   </section>
+  </template>
 
   <!-- ALIANZAS INSTITUCIONALES -->
   <section class="section alianzas" id="alianzas" aria-labelledby="alianzas-heading">
@@ -399,6 +404,7 @@
     <div class="site-footer__legal">
       <p>© 2026 Discapacidad Colombia. Todos los derechos reservados.</p>
       <p>Sitio construido con criterios de accesibilidad WCAG 2.1 nivel AA.</p>
+      <p><a href="/privacidad">Aviso de privacidad</a></p>
     </div>
   </div>
 </footer>

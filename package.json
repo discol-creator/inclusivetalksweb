@@ -1,12 +1,19 @@
 {
   "name": "inclusive-talks-landing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Landing de proximo lanzamiento de Inclusive Talks (Discapacidad Colombia). Sitio estatico HTML/CSS/JS con una funcion serverless para el pre-registro.",
+  "description": "Landing de Inclusive Talks (Discapacidad Colombia). Sitio estatico HTML/CSS/JS con funciones serverless para el pre-registro y la inscripcion al evento de Medellin 2026.",
   "engines": {
-    "node": ">=18"
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "qrcode": "1.5.4",
+    "satori": "0.33.5"
   },
   "scripts": {
-    "dev": "npx serve . -l 3000"
+    "dev": "npx vercel dev",
+    "escarapela": "node scripts/probar-escarapela.mjs",
+    "escarapelas": "node scripts/escarapelas-desde-csv.mjs"
   }
 }

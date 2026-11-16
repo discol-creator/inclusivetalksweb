@@ -1107,3 +1107,320 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
   background: var(--blue);
   color: var(--ink);
 }
+
+/* =========================================================
+   Inscripción al evento (inscripcion.html) y aviso legal (privacidad.html)
+   ========================================================= */
+
+.wrap--angosto { max-width: 760px; }
+
+/* Cabecera sin menú desplegable: el único enlace se queda a la vista en móvil */
+@media (max-width: 860px) {
+  .primary-nav.primary-nav--simple {
+    position: static;
+    inset-inline: auto;
+    top: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: none;
+    border-bottom: 0;
+    padding: 0;
+  }
+  .primary-nav--simple ul { flex-direction: row; }
+  .primary-nav--simple a {
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    padding: 0.4rem 0.1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.inscripcion .h1, .legal .h1 { margin-bottom: 1.25rem; }
+
+/* Datos del evento */
+.evento-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem 1.5rem;
+  margin: 0 0 1.75rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--blue-tint);
+  border-radius: var(--radius-md);
+}
+
+.evento-datos dt {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue-text);
+  margin-bottom: 0.2rem;
+}
+
+.evento-datos dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Aviso de datos personales, visible sobre el formulario */
+.aviso-legal {
+  border: 2px solid var(--border);
+  border-left: 6px solid var(--blue);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  background: var(--white);
+}
+
+.aviso-legal__title {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+}
+
+.aviso-legal p {
+  margin: 0;
+  font-size: 0.93rem;
+  color: var(--gray);
+}
+
+.aviso-legal a, .legal a, .form-ayuda a {
+  color: var(--blue-text);
+  font-weight: 600;
+}
+
+/* Marcas de obligatorio y opcional */
+.form-leyenda {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.req, .opt {
+  font-weight: 600;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.req { color: #B5350F; }
+.opt { color: var(--gray); }
+
+.form-ayuda {
+  margin: 0.4rem 0 0;
+  font-size: 0.87rem;
+  color: var(--gray);
+}
+
+/* El texto de ayuda va antes del campo cuando es largo: aquí queda debajo, en orden de lectura */
+.form-field select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+.form-field select[aria-invalid="true"] { border-color: var(--coral); }
+
+.form-field input[type="text"],
+.form-field input[type="email"] { min-height: 48px; }
+
+/* Grupos de opciones */
+.radio-group--columna {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.radio-group--columna .radio-option { border-radius: var(--radius-sm); }
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.radio-option, .checkbox-option { min-height: 44px; }
+
+.checkbox-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.checkbox-option:has(input:checked) {
+  border-color: var(--ink);
+  background: var(--blue-tint);
+}
+
+.checkbox-option input {
+  accent-color: var(--ink);
+  width: 1.15em;
+  height: 1.15em;
+  margin-top: 0.2em;
+  flex: none;
+}
+
+.checkbox-option--destacada {
+  background: var(--bg);
+  border-color: var(--ink);
+  font-weight: 600;
+}
+
+/* Texto que se abre al elegir "Prefiero autodescribirme" u "Otro" */
+.campo-otro {
+  margin-top: 0.75rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--blue);
+}
+
+.campo-otro label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.35rem;
+}
+
+.campo-otro input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+/* Resumen de errores: recibe el foco al fallar el envío */
+.resumen-errores {
+  border: 2px solid #B5350F;
+  border-radius: var(--radius-md);
+  background: var(--coral-tint);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.resumen-errores__title {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: #8A2708;
+}
+
+.resumen-errores ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.92rem;
+}
+
+.resumen-errores li { margin-bottom: 0.3rem; }
+
+.resumen-errores a {
+  color: #8A2708;
+  font-weight: 600;
+}
+
+/* Pantalla de confirmación */
+.confirmacion {
+  border: 2px solid var(--blue);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  text-align: center;
+}
+
+.confirmacion__title {
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 1.5rem;
+}
+
+.confirmacion__label {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue-text);
+}
+
+.confirmacion__codigo {
+  margin: 0 0 1rem;
+  font-size: clamp(2.25rem, 8vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.confirmacion__texto {
+  margin: 0 0 0.75rem;
+  color: var(--gray);
+}
+
+.confirmacion__texto--nota { font-size: 0.9rem; }
+
+.confirmacion .btn { margin-top: 1rem; }
+
+/* Página de aviso de privacidad */
+.legal h2 {
+  font-size: 1.15rem;
+  margin: 2rem 0 0.6rem;
+}
+
+.legal p { margin: 0 0 1rem; }
+
+.legal__lista {
+  margin: 0 0 1rem;
+  padding-left: 1.3rem;
+}
+
+.legal__lista li { margin-bottom: 0.4rem; }
+
+.legal__volver { margin-top: 2.5rem; }
+
+/* ---------- Validación de escarapelas (validar.html) ---------- */
+
+.validacion {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  margin: 1.5rem 0;
+  text-align: center;
+  background: var(--bg);
+}
+
+.validacion__estado {
+  margin: 0;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.validacion__detalle {
+  margin: 0.75rem 0 0;
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.validacion[data-estado="valida"] {
+  border-color: #146C2E;
+  background: #E7F6EC;
+}
+.validacion[data-estado="valida"] .validacion__estado { color: #0F5223; }
+
+.validacion[data-estado="invalida"] {
+  border-color: #B5350F;
+  background: var(--coral-tint);
+}
+.validacion[data-estado="invalida"] .validacion__estado { color: #8A2708; }
