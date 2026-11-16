@@ -74,6 +74,7 @@ Páginas y archivos:
 | `api/_campos.mjs` | Opciones del formulario y validación del servidor (los textos deben ser idénticos a los del HTML) |
 | `api/_escarapela.mjs` | Genera la escarapela en PNG de 800 × 1200 px |
 | `api/escarapela-demo.mjs` | Vista previa de la escarapela, desactivada en producción |
+| `api/cupo.mjs` | Consulta cuántas inscripciones van y si queda cupo |
 | `api/_firma.mjs` | Firma y comprueba la credencial que lleva el QR |
 | `api/validar.mjs` | Comprueba una escarapela escaneada |
 | `validar.html` + `js/validar.js` | Página `/validar` que muestra el resultado del escaneo |
@@ -124,6 +125,28 @@ así que **el respaldo es la hoja misma**. Para volver a tenerlas todas:
 
 Regenera una por fila en `escarapelas/asistente/`. Para los ponentes, con su propio CSV:
 `npm run escarapelas -- ponentes.csv ponente`
+
+### Cupo del evento
+
+El tope está en **una sola línea**, en `docs/apps-script-inscripcion.gs`:
+
+```js
+const CUPO_MAXIMO = 60;
+```
+
+Para cambiarlo: hoja de cálculo > Extensiones > Apps Script, cambia el número, guarda
+(Cmd+S) y publica una versión nueva (Implementar > Gestionar implementaciones > editar >
+Nueva versión). No hay que tocar nada más: la web lee el tope y el conteo desde ahí.
+
+Cómo se comporta:
+
+- El Apps Script revisa el cupo **dentro de su candado**, así que dos personas que envíen a
+  la vez no pueden colarse las dos en el último puesto.
+- La página consulta `/api/cupo` al cargar. Si está lleno, oculta el formulario y muestra el
+  aviso de inscripciones cerradas. Si queda cupo, muestra cuántos.
+- Si la consulta falla o el Apps Script no responde, **el formulario sigue disponible**: más
+  vale una inscripción de más que cerrarle la puerta a todo el mundo por un fallo de red.
+  El Apps Script vuelve a revisar el cupo al guardar, que es donde cuenta.
 
 ### Validación del QR
 

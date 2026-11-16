@@ -65,6 +65,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* El atributo hidden gana siempre: una clase con display propio lo pisaría.
+   Lo aprendimos con .cupo-aviso, que se mostraba vacío al cargar la página. */
+[hidden] { display: none !important; }
+
 html {
   font-size: calc(100% * var(--zoom));
   scroll-behavior: smooth;
@@ -1065,9 +1069,6 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
   gap: 0.5rem;
 }
 
-.a11y-toolbar__panel[hidden] {
-  display: none;
-}
 
 .a11y-toolbar__label {
   margin: 0 0 0.25rem;
@@ -1424,3 +1425,43 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
   background: var(--coral-tint);
 }
 .validacion[data-estado="invalida"] .validacion__estado { color: #8A2708; }
+
+/* ---------- Cupo del evento ---------- */
+
+.cupo-aviso {
+  display: inline-block;
+  margin: 0 0 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--blue-tint);
+  color: var(--blue-text);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.cupo-aviso[data-pocos="true"] {
+  background: var(--sun-tint);
+  color: #7A5200;
+}
+
+.cupo-cerrado {
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  margin-bottom: 2rem;
+}
+
+.cupo-cerrado__title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cupo-cerrado p { margin: 0; }
+
+.cupo-cerrado a {
+  color: var(--blue-text);
+  font-weight: 600;
+}

@@ -30,6 +30,7 @@ const MENSAJES = {
 const TIEMPO_MINIMO_MS = 3000;
 
 const MENSAJES_HOJA = {
+  'cupo-lleno': `Se agotaron los cupos mientras llenabas el formulario. Escríbenos a ${CORREO_CONTACTO} y te avisamos si se libera uno`,
   'correo-duplicado': 'Ya estás inscrita o inscrito con este correo',
   'documento-duplicado': `Ese número de documento ya está registrado. Escríbenos a ${CORREO_CONTACTO} y te ayudamos`
 };

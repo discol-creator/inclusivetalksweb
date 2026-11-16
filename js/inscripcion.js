@@ -116,6 +116,40 @@
     revisar();
   }
 
+  /* ---------- Cupo del evento ----------
+     El tope vive en el Apps Script. Si la consulta falla, no se bloquea a nadie:
+     el Apps Script vuelve a revisar el cupo al guardar. */
+  function revisarCupo() {
+    var aviso = id('cupo-aviso');
+    var cerrado = id('cupo-cerrado');
+    if (!aviso || !cerrado) return;
+
+    fetch('/api/cupo')
+      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        if (!r.ok) return;                     // sin datos: se deja el formulario como está
+
+        if (!r.abierto) {
+          form.parentNode.hidden = true;       // la tarjeta del formulario
+          var legal = id('aviso-legal');
+          if (legal) legal.hidden = true;
+          cerrado.hidden = false;
+          return;
+        }
+
+        if (typeof r.disponibles === 'number') {
+          aviso.textContent = r.disponibles === 1
+            ? 'Queda 1 cupo de ' + r.cupo + '.'
+            : 'Quedan ' + r.disponibles + ' cupos de ' + r.cupo + '.';
+          aviso.hidden = false;
+          if (r.disponibles <= 10) aviso.setAttribute('data-pocos', 'true');
+        }
+      })
+      .catch(function () { /* sin conexión al endpoint: el formulario sigue disponible */ });
+  }
+
+  revisarCupo();
+
   conectarOtro('genero', 'Prefiero autodescribirme', 'campo-genero-texto', 'f-genero-texto');
   conectarOtro('ajustes', 'Otro', 'campo-ajustes-texto', 'f-ajustes-texto');
 

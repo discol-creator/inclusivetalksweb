@@ -6,6 +6,12 @@
 const HOJA = 'Inscripción';
 const TOKEN = 'CAMBIA-ESTA-CLAVE-LARGA';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// CUPO DEL EVENTO. Cambia solo este número y guarda (Ctrl+S / Cmd+S).
+// Al llegar a este tope el formulario se cierra solo.
+const CUPO_MAXIMO = 60;
+// ─────────────────────────────────────────────────────────────────────────────
+
 function doPost(e) {
   let data;
   try {
@@ -20,6 +26,11 @@ function doPost(e) {
   lock.waitLock(10000);
   try {
     const ultima = hoja.getLastRow();
+
+    // El cupo se revisa dentro del candado: dos personas que envíen a la vez no pueden
+    // colarse las dos en el último puesto.
+    if (contarInscritos(ultima) >= CUPO_MAXIMO) return responder({ ok: false, error: 'cupo-lleno' });
+
     if (ultima > 1) {
       const filas = hoja.getRange(2, 3, ultima - 1, 2).getValues(); // C = correo, D = documento
       for (const [correo, documento] of filas) {
@@ -48,6 +59,24 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// Fila 1 son los encabezados, así que las inscripciones son las filas de la 2 en adelante.
+function contarInscritos(ultimaFila) {
+  return Math.max(0, ultimaFila - 1);
+}
+
+// Consulta del cupo para la página de inscripción. Solo devuelve números: ningún dato personal,
+// por eso no pide token.
+function doGet() {
+  const hoja = SpreadsheetApp.getActive().getSheetByName(HOJA);
+  const inscritos = contarInscritos(hoja.getLastRow());
+  return responder({
+    ok: true,
+    inscritos: inscritos,
+    cupo: CUPO_MAXIMO,
+    abierto: inscritos < CUPO_MAXIMO
+  });
 }
 
 function responder(obj) {
