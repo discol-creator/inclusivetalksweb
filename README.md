@@ -94,8 +94,13 @@ Variables de entorno (Vercel > Settings > Environment Variables, marcadas para *
 La sección de pre-registro de la landing quedó dentro de un `<template>` en `index.html`: el navegador
 no la muestra. Para recuperarla, quita las dos etiquetas `<template>` que la envuelven.
 
-Para revisar la escarapela sin escribir en la hoja ni enviar correos, en una vista previa de Vercel:
-`/api/escarapela-demo?nombre=Nombre Apellido&organizacion=Entidad, cargo&documento=1020304050`
+Para revisar la escarapela sin escribir en la hoja ni enviar correos hay dos caminos:
+
+- **En una vista previa de Vercel** (no necesita Node en tu equipo, y usa el mismo entorno que producción):
+  `/api/escarapela-demo?nombre=Nombre Apellido&organizacion=Entidad, cargo&documento=1020304050`
+- **En local**, con Node 22 y `npm install` hechos:
+  `npm run escarapela -- "Nombre Apellido" "Entidad, cargo" 1020304050`
+  Deja el PNG en `escarapela-prueba.png`.
 
 ## Contenido y fuente de la verdad
 

@@ -11,6 +11,7 @@
     "qrcode": "1.5.4"
   },
   "scripts": {
-    "dev": "npx vercel dev"
+    "dev": "npx vercel dev",
+    "escarapela": "node scripts/probar-escarapela.mjs"
   }
 }
