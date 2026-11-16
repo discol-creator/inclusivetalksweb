@@ -15,6 +15,8 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { generarEscarapela } from '../api/_escarapela.mjs';
 import { normalizarDocumento, DOCUMENTO_RE } from '../api/_campos.mjs';
 import { TIPOS_VALIDOS } from '../api/_firma.mjs';
+// Carga .env.local si existe, para no tener que exportar variables a mano.
+try { process.loadEnvFile(new URL('../.env.local', import.meta.url)); } catch { /* no hay archivo */ }
 
 const [rutaCsv, tipo = 'asistente'] = process.argv.slice(2);
 
