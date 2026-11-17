@@ -30,7 +30,25 @@ export default async function handler(req, res) {
     || process.env.RESEND_FROM
     || 'Inclusive Talks <onboarding@resend.dev>';
 
+  // Intenta dibujar una escarapela de verdad. Es la pieza que nunca se ha ejecutado
+  // en Vercel: si falla aquí, el correo sale sin adjunto y nadie se entera.
+  let escarapela;
+  const inicio = Date.now();
+  try {
+    const { generarEscarapela } = await import('./_escarapela.mjs');
+    const png = await generarEscarapela({
+      nombre: 'Prueba Diagnostico',
+      organizacion: 'Prueba',
+      documento: '99999999',
+      tipo: 'asistente'
+    });
+    escarapela = `ok · ${(png.length / 1024).toFixed(1)} KB · ${Date.now() - inicio} ms`;
+  } catch (err) {
+    escarapela = `FALLA · ${err?.message || err}`;
+  }
+
   return res.status(200).json({
+    escarapela,
     remitenteQueSeUsaria: remitente,
     enviaACualquiera: !remitente.includes('onboarding@resend.dev'),
     esperadas: presentes,
