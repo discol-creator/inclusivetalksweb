@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "functions": {
     "api/*.mjs": {
-      "includeFiles": "api/fonts/**",
+      "includeFiles": "{api/fonts/**,node_modules/harfbuzzjs/*.wasm,node_modules/satori/*.wasm,node_modules/@resvg/**}",
       "maxDuration": 30
     }
   },
