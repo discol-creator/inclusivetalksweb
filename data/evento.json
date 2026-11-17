@@ -1,0 +1,72 @@
+{
+  "evento": {
+    "nombre": "Inclusive Talks",
+    "descriptor": "Summit de discapacidad",
+    "tagline": "El summit de discapacidad de Colombia y la región.",
+    "edicion": "Segunda edición",
+    "fecha": "2026-12-04",
+    "fechaCorta": "04 dic · Medellín",
+    "lugar": "Salón Azul, CC Premium Plaza",
+    "ciudad": "Medellín",
+    "ejes": ["Curiosidades", "Tips", "Debate"],
+    "cta": "Regístrate"
+  },
+  "organiza": {
+    "nombre": "Discapacidad Colombia",
+    "logo": "assets/logos/discapacidad-colombia.svg",
+    "logoSobreOscuro": "assets/logos/discapacidad-colombia-blanco.svg"
+  },
+  "conferencistas": [
+    {
+      "id": "sara-munera",
+      "nombre": "Sara Múnera",
+      "cargo": "Fundadora · Whee",
+      "eje": "Tips",
+      "tema": "Diseño inclusivo sin excusas: claves para empezar hoy",
+      "bio": "De una beca Fulbright a fundar Whee en Colombia. Hoy enseña a diseñar sin dejar a nadie afuera.",
+      "foto": "assets/fotos/sara-munera.jpg",
+      "fotoAlt": "Foto de Sara Múnera",
+      "logo": "assets/logos/whee.svg",
+      "logoAlt": "Whee",
+      "logoFondo": "claro",
+      "slidePng": "slides/png/slide-sara-munera.png",
+      "slideHtml": "slides/html/slide-sara-munera.html"
+    },
+    {
+      "id": "nicolas-rodriguez",
+      "nombre": "Nicolás Rodríguez",
+      "cargo": "Director de Inversión · ACI Medellín",
+      "eje": null,
+      "tema": "Medellín para todas las personas: inclusión en la agenda de inversión",
+      "bio": "Más de 10 años abriendo puertas a la inversión y la innovación. Hoy dirige la atracción de inversión de ACI Medellín.",
+      "foto": "assets/fotos/nicolas-rodriguez.jpg",
+      "fotoAlt": "Foto de Nicolás Rodríguez",
+      "logo": "assets/logos/aci-medellin.svg",
+      "logoAlt": "ACI Medellín",
+      "logoFondo": "claro",
+      "slidePng": "slides/png/slide-nicolas-rodriguez.png",
+      "slideHtml": "slides/html/slide-nicolas-rodriguez.html"
+    },
+    {
+      "id": "estefanel-gutierrez",
+      "nombre": "Estefanel Gutiérrez",
+      "cargo": "Representante a la Cámara · Atlántico",
+      "eje": "Debate",
+      "tema": "Discapacidad en la ley: un sistema, una red de cuidados y un fondo con reglas claras",
+      "bio": "De La Manga a la Cámara, con una idea fija: una oportunidad puede cambiar una vida. Hoy la defiende desde la agenda de discapacidad.",
+      "foto": "assets/fotos/estefanel-gutierrez.jpg",
+      "fotoAlt": "Foto de Estefanel Gutiérrez",
+      "logo": "assets/logos/estefanel-congresista-blanco.svg",
+      "logoAlt": "Estefanel Congresista",
+      "logoFondo": "oscuro",
+      "slidePng": "slides/png/slide-estefanel-gutierrez.png",
+      "slideHtml": "slides/html/slide-estefanel-gutierrez.html"
+    }
+  ],
+  "apoyos": [
+    { "nombre": "Catherine Juvinao", "logo": "assets/logos/cathy-juvinao.svg", "logoAlt": "Catherine Juvinao", "logoFondo": "claro" },
+    { "nombre": "ACI Medellín", "logo": "assets/logos/aci-medellin.svg", "logoAlt": "ACI Medellín", "logoFondo": "claro" },
+    { "nombre": "Whee", "logo": "assets/logos/whee.svg", "logoAlt": "Whee", "logoFondo": "claro" },
+    { "nombre": "Estefanel Gutiérrez", "logo": "assets/logos/estefanel-congresista-blanco.svg", "logoAlt": "Estefanel Congresista", "logoFondo": "oscuro" }
+  ]
+}
