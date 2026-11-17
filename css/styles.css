@@ -1848,21 +1848,6 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
   object-fit: contain;
 }
 
-/* Logos en blanco: necesitan placa oscura para verse */
-.speaker__logo--oscuro {
-  padding-top: 1.5rem;
-}
-
-.speaker__logo--oscuro img {
-  background: var(--ink);
-  border-radius: 12px;
-  padding: 0.5rem 0.9rem;
-  height: 3rem;
-  box-sizing: content-box;
-}
-
-:root[data-contrast="high"] .speaker__logo--oscuro img { background: #000; }
-
 .speakers__nota {
   margin: 1.75rem 0 0;
   color: var(--gray);
@@ -1996,13 +1981,6 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
   object-fit: contain;
 }
 
-.apoyo-plate--oscura {
-  background: var(--ink);
-  border-color: var(--ink);
-}
-
-:root[data-contrast="high"] .apoyo-plate--oscura { background: #000; }
-
 .apoyos__lista--organiza .apoyo-plate {
   flex: 0 1 18rem;
   min-height: 6.5rem;
@@ -2051,8 +2029,9 @@ h3 { font-weight: 800; letter-spacing: -0.01em; }
   border-bottom: 2px solid var(--blue);
 }
 
-/* Logos casi cuadrados (ACI): con la misma altura que los apaisados se leen
-   mucho mas pequenos, asi que se les da mas alto. */
+/* Logos compactos (ACI, Estefanel): llevan dos lineas de texto o una caja de
+   color, asi que con la misma altura que los apaisados se leen mucho mas
+   pequenos. Se les da mas alto para igualar el peso optico. */
 .speaker__logo img.logo-alto { height: 3.2rem; }
 .apoyo-plate img.logo-alto { max-height: 3.6rem; }
 
