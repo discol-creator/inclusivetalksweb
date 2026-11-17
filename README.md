@@ -1,16 +1,39 @@
-# Inclusive Talks — Landing de próximo lanzamiento
+# Inclusive Talks — Landing del evento
 
-Landing "coming soon" para la segunda edición de Inclusive Talks (Medellín, 2026).
-Sitio estático (HTML, CSS y JS sin frameworks ni build) más dos funciones serverless
-en Vercel: una para el formulario de pre-registro y otra para la postulación de
+Landing de la segunda edición de Inclusive Talks: **viernes 4 de diciembre de 2026,
+Salón Azul, CC Premium Plaza, Medellín**. Sitio estático (HTML, CSS y JS sin frameworks
+ni build) más funciones serverless en Vercel para la inscripción y la postulación de
 alianzas institucionales.
+
+## Estructura de la landing (`index.html`)
+
+1. **Portada** — foto de fondo oscurecida, logotipo de Inclusive Talks a gran tamaño,
+   descriptor, datos del evento y los dos botones: *Conferencistas* e *Inscríbete*.
+2. **Conferencistas** — galería de tarjetas con foto circular, eje, tema y logo del aliado.
+3. **El evento** — los tres ejes (Curiosidades, Tips, Debate).
+4. **Organiza y apoya** — logos de Discapacidad Colombia y de los aliados.
+5. **Cierre** — último llamado a inscribirse.
+
+La inscripción está disponible desde cualquier punto de la página: el botón
+*Inscríbete* vive en la cabecera fija y se repite en la portada, al final de la
+galería, en la sección del evento, en el cierre y en el pie.
+
+Los contenidos de conferencistas (textos, fotos y logos) vienen del kit de contenido
+y están en `assets/fotos/`, `assets/logos/` y `data/evento.json`.
+
+La landing anterior (la de "próximo lanzamiento", con el recorrido de ciudades, las
+cifras del DANE, el antecedente en el Congreso y las alianzas institucionales) quedó
+dentro de un `<template id="landing-anterior">` en `index.html`: el navegador no la
+muestra, no carga sus imágenes y el teclado no la alcanza. Para recuperarla, quita
+las dos etiquetas `<template>` que la envuelven.
 
 ## Stack técnico
 
 - **Frontend:** HTML5 semántico + CSS3 (sin preprocesadores) + JavaScript vanilla (sin dependencias). Cero build step.
 - **Backend de los formularios:** dos funciones serverless de Vercel (Node.js, sin dependencias npm) que envían cada envío por correo usando la API REST de [Resend](https://resend.com):
-  - `api/preregister.js`: formulario de inscripción previa (sección "Inscripción previa").
-  - `api/alianza.js`: formulario de postulación de alianza institucional (modal que abre el botón "Quiero postular a mi institución" en la sección "Alianzas institucionales"). Pide nombre, empresa o institución, cargo, correo y número de contacto.
+  - `api/inscripcion.mjs`: formulario de inscripción al evento (`inscripcion.html`).
+  - `api/preregister.js`: formulario de inscripción previa. Su sección está oculta en la landing (ver abajo), pero la función sigue desplegada.
+  - `api/alianza.js`: formulario de postulación de alianza institucional. Su sección también quedó dentro de la landing anterior oculta.
 - **Tipografía:** Plus Jakarta Sans (Google Fonts), geométrica y bold, cercana a la identidad ya definida.
 - **Hosting:** Vercel (proyecto estático + 2 funciones en `/api`).
 - **Imágenes:** fotografías de banco gratuito (Unsplash), descargadas localmente y optimizadas en formato JPG. Ver "Créditos de imágenes" abajo.
@@ -97,8 +120,9 @@ Variables de entorno (Vercel > Settings > Environment Variables, marcadas para *
 | `ESCARAPELA_SECRET` | Opcional. Clave para firmar los QR; si falta se deriva de `APPS_SCRIPT_TOKEN` |
 | `SITE_URL` | Opcional. Dominio para los QR generados desde los scripts; en la web se detecta solo |
 
-La sección de pre-registro de la landing quedó dentro de un `<template>` en `index.html`: el navegador
-no la muestra. Para recuperarla, quita las dos etiquetas `<template>` que la envuelven.
+Tanto la sección de pre-registro como el resto de la landing anterior quedaron dentro de
+`<template>` en `index.html`: el navegador no los muestra. Para recuperarlos, quita las
+etiquetas `<template>` que los envuelven.
 
 ### Escarapelas
 
